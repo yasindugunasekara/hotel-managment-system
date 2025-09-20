@@ -79,7 +79,7 @@ Please let me know about availability and pricing. Thank you!`;
       
       <button
         type="submit"
-        className="w-full bg-gold text-white py-3 px-6 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium flex items-center justify-center space-x-2"
+        className="w-full bg-gold text-white py-3 px-6 rounded hover:bg-opacity-90 transition-all duration-300 font-medium flex items-center justify-center space-x-2"
       >
         <MessageCircle size={18} />
         <span>Book via WhatsApp</span>

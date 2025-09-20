@@ -57,10 +57,13 @@ const Home = () => {
             {t('heroSubtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-gold text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
+            <button className="bg-gold text-white px-20 py-4  text-lg font-medium hover:bg-opacity-90 rounded transition-all duration-300 transform hover:scale-105">
               {t('bookNow')}
             </button>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-white hover:text-navy transition-all duration-300">
+            <button
+              className="border-2 border-white text-white px-20 py-4  text-lg font-medium hover:bg-white hover:text-navy transition-all duration-300 rounded"
+              onClick={() => window.location.href = 'https://www.booking.com/hotel/lk/the-calm-rest.en-gb.html?aid=311984&label=calm-weligama-EYoUtRo3aXIPemjVpPAgBAS733450721664%3Apl%3Ata%3Ap1%3Ap2%3Aac%3Aap%3Aneg%3Afi%3Atikwd-2404826799772%3Alp9199150%3Ali%3Adec%3Adm%3Appccp%3DUmFuZG9tSVYkc2RlIyh9YbSsBl3MCvHsD8UKUHIRFxY&sid=ae299fd582884e4ce42be577fedeae60&dest_id=-2240150&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=6&hpos=6&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1758384556&srpvid=ab307195e3c702bf&type=total&ucfs=1&'}
+            >
               {t('learnMore')}
             </button>
           </div>
@@ -87,15 +90,15 @@ const Home = () => {
               </p>
               <div className="grid grid-cols-2 gap-6 mb-8">
                 <div className="text-center">
-                  <h3 className="text-3xl font-bold text-gold">150+</h3>
-                  <p className="text-gray-600">Luxury Rooms</p>
+                  <h3 className="text-3xl font-bold text-gold">10+</h3>
+                  <p className="text-gray-600">Rooms</p>
                 </div>
                 <div className="text-center">
-                  <h3 className="text-3xl font-bold text-gold">25+</h3>
+                  <h3 className="text-3xl font-bold text-gold">15+</h3>
                   <p className="text-gray-600">Years Experience</p>
                 </div>
                 <div className="text-center">
-                  <h3 className="text-3xl font-bold text-gold">98%</h3>
+                  <h3 className="text-3xl font-bold text-gold">9/10</h3>
                   <p className="text-gray-600">Guest Satisfaction</p>
                 </div>
                 <div className="text-center">
@@ -103,7 +106,7 @@ const Home = () => {
                   <p className="text-gray-600">Concierge Service</p>
                 </div>
               </div>
-              <button className="bg-gold text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium">
+              <button className="bg-gold text-white px-8 py-3 rounded hover:bg-opacity-90 transition-all duration-300 font-medium">
                 {t('learnMore')}
               </button>
             </div>
@@ -150,7 +153,7 @@ const Home = () => {
                     alt={room.name}
                     className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute top-4 right-4 bg-gold text-white px-3 py-1 rounded-full font-semibold">
+                  <div className="absolute top-4 right-4 bg-gold text-white px-3 py-1  font-semibold rounded">
                     {room.price}/night
                   </div>
                 </div>
@@ -158,12 +161,12 @@ const Home = () => {
                   <h3 className="text-xl font-semibold mb-3 text-navy">{room.name}</h3>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {room.features.map((feature, index) => (
-                      <span key={index} className="text-sm bg-cream px-3 py-1 rounded-full text-gray-600">
+                      <span key={index} className="text-sm bg-cream px-3 py-1  text-gray-600">
                         {feature}
                       </span>
                     ))}
                   </div>
-                  <button className="w-full bg-gold text-white py-2 px-4 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium">
+                  <button className="w-full bg-gold text-white py-2 px-4 rounded hover:bg-opacity-90 transition-all duration-300 font-medium">
                     {t('bookNow')}
                   </button>
                 </div>
@@ -172,7 +175,7 @@ const Home = () => {
           </div>
           
           <div className="text-center mt-12">
-            <button className="bg-navy text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium inline-flex items-center space-x-2">
+            <button className="bg-navy text-white px-8 py-3 rounded hover:bg-opacity-80 transition-all duration-300 font-medium inline-flex items-center space-x-2">
               <span>{t('viewAll')}</span>
               <ArrowRight size={18} />
             </button>

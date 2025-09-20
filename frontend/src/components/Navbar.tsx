@@ -109,7 +109,7 @@ const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
-              <button className="bg-gold text-white px-6 py-2 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium">
+              <button className="bg-gold text-white px-6 py-2 rounded hover:bg-opacity-90 transition-all duration-300 font-medium">
                 {t('bookNow')}
               </button>
             </div>
@@ -145,7 +145,7 @@ const Navbar = () => {
                 </Link>
               ))}
               <div className="px-3 pt-2">
-                <button className="w-full bg-gold text-white px-6 py-2 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium">
+                <button className="w-full bg-gold text-white px-6 py-2 rounded hover:bg-opacity-90 transition-all duration-300 font-medium">
                   {t('bookNow')}
                 </button>
               </div>
