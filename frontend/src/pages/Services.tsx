@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import { Utensils, Waves, Dumbbell, Car, Calendar, Users, Sparkles, Wine, Music, Heart } from 'lucide-react';
 
 const Services = () => {
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
+
+ // Scroll to top on page load
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const services = [
     {

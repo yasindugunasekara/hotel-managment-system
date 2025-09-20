@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ArrowRight, Star, Wifi, Car, Coffee, Dumbbell, Utensils, Waves } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import BookingForm from '../components/BookingForm';
 
 const Home = () => {
   const { t } = useLanguage();
+
+  // Scroll to top on component mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const featuredRooms = [
     {
@@ -48,7 +53,6 @@ const Home = () => {
           }}
         />
         <div className="absolute inset-0 bg-navy bg-opacity-60" />
-        
         <div className="relative z-10 max-w-4xl mx-auto px-4">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 font-serif">
             {t('heroTitle')}
@@ -62,7 +66,7 @@ const Home = () => {
             </button>
             <button
               className="border-2 border-white text-white px-20 py-4  text-lg font-medium hover:bg-white hover:text-navy transition-all duration-300 rounded"
-              onClick={() => window.location.href = 'https://www.booking.com/hotel/lk/the-calm-rest.en-gb.html?aid=311984&label=calm-weligama-EYoUtRo3aXIPemjVpPAgBAS733450721664%3Apl%3Ata%3Ap1%3Ap2%3Aac%3Aap%3Aneg%3Afi%3Atikwd-2404826799772%3Alp9199150%3Ali%3Adec%3Adm%3Appccp%3DUmFuZG9tSVYkc2RlIyh9YbSsBl3MCvHsD8UKUHIRFxY&sid=ae299fd582884e4ce42be577fedeae60&dest_id=-2240150&dest_type=city&dist=0&group_adults=2&group_children=0&hapos=6&hpos=6&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1758384556&srpvid=ab307195e3c702bf&type=total&ucfs=1&'}
+              onClick={() => window.location.href = 'https://www.booking.com/hotel/lk/the-calm-rest.en-gb.html'}
             >
               {t('learnMore')}
             </button>
@@ -175,7 +179,7 @@ const Home = () => {
           </div>
           
           <div className="text-center mt-12">
-            <button className="bg-navy text-white px-8 py-3 rounded hover:bg-opacity-80 transition-all duration-300 font-medium inline-flex items-center space-x-2">
+            <button className="bg-navy text-white px-8 py-3 rounded hover:bg-opacity-0 transition-all duration-300 font-medium inline-flex items-center space-x-2">
               <span>{t('viewAll')}</span>
               <ArrowRight size={18} />
             </button>

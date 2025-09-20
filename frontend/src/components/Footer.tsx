@@ -123,7 +123,7 @@ const Footer = () => {
       <div className="border-t border-gray-800 py-6">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © 2025 Calm Rest Hotel. All rights reserved.
+            © {new Date().getFullYear()} Calm Rest Hotel. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-gray-400 hover:text-gold text-sm transition-colors">

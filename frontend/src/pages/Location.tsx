@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MapPin, Plane, Car, Utensils, ShoppingBag, Camera, Clock, Phone, Mail } from 'lucide-react';
 
 const Location = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const attractions = [
     {
       icon: <Camera className="w-6 h-6" />,
@@ -69,7 +73,15 @@ const Location = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white relative">
+      {/* Sticky Contact */}
+      <div className="fixed bottom-4 right-4 bg-gold text-white p-4 rounded-lg shadow-lg hidden md:flex flex-col items-center z-50">
+        <Phone className="w-5 h-5 mb-2" />
+        <span className="font-medium text-sm">+1 (555) 123-4567</span>
+        <Mail className="w-5 h-5 mt-2 mb-1" />
+        <span className="font-medium text-sm">info@calmrest.com</span>
+      </div>
+
       {/* Hero Section */}
       <section className="relative h-96 flex items-center justify-center text-center text-white">
         <div 
@@ -79,7 +91,6 @@ const Location = () => {
           }}
         />
         <div className="absolute inset-0 bg-navy bg-opacity-70" />
-        
         <div className="relative z-10 max-w-4xl mx-auto px-4">
           <h1 className="text-5xl md:text-6xl font-bold mb-4 font-serif">
             Location & Directions
@@ -121,66 +132,63 @@ const Location = () => {
         </div>
       </section>
 
-      {/* Map & Info */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Map */}
-            <div>
-              <div className="bg-gray-200 rounded-lg h-96 flex items-center justify-center mb-6">
-                <div className="text-center text-gray-500">
-                  <MapPin className="w-16 h-16 mx-auto mb-4" />
-                  <p className="text-lg font-semibold">Interactive Map</p>
-                  <p className="text-sm">Google Maps would be embedded here</p>
-                  <div className="mt-4">
-                    <button className="bg-gold text-white px-6 py-2 rounded-full hover:bg-opacity-90 transition-colors">
-                      Open in Google Maps
-                    </button>
-                  </div>
-                </div>
+      {/* Map & Location Info */}
+      <section className="py-20 max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12">
+        {/* Map */}
+        <div>
+          <div className="rounded-lg overflow-hidden h-96">
+            <iframe
+              title="Calm Rest Hotel Map"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0195110302353!2d-122.4194150846816!3d37.77492977975959!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085808cba7b4395%3A0x804deed5c7778c7c!2sSan+Francisco%2C+CA%2C+USA!5e0!3m2!1sen!2sin!4v1500000000000"
+              width="100%"
+              height="100%"
+              className="border-0"
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
+          <div className="text-center mt-4">
+            <button className="bg-gold text-white px-6 py-2 rounded-full hover:bg-opacity-90 transition-colors">
+              Open in Google Maps
+            </button>
+          </div>
+        </div>
+
+        {/* Location Info */}
+        <div>
+          <h2 className="text-3xl font-bold mb-6 text-navy font-serif">Prime Location</h2>
+          <p className="text-lg text-gray-700 leading-relaxed mb-8">
+            Calm Rest Hotel is strategically located in the prestigious downtown district, offering unparalleled access to the city's finest attractions, business centers, and cultural landmarks.
+          </p>
+          
+          <div className="space-y-4">
+            <div className="flex items-start space-x-4">
+              <div className="bg-gold p-2 rounded-full mt-1">
+                <Car className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-navy">Transportation Hub</h3>
+                <p className="text-gray-600">Easy access to airports, train stations, and major highways</p>
               </div>
             </div>
-            
-            {/* Location Info */}
-            <div>
-              <h2 className="text-3xl font-bold mb-6 text-navy font-serif">Prime Location</h2>
-              <p className="text-lg text-gray-700 leading-relaxed mb-8">
-                Calm Rest Hotel is strategically located in the prestigious downtown district, 
-                offering unparalleled access to the city's finest attractions, business centers, 
-                and cultural landmarks. Our central location ensures that whether you're here 
-                for business or leisure, everything you need is within reach.
-              </p>
-              
-              <div className="space-y-4">
-                <div className="flex items-start space-x-4">
-                  <div className="bg-gold p-2 rounded-full mt-1">
-                    <Car className="w-4 h-4 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-navy">Transportation Hub</h3>
-                    <p className="text-gray-600">Easy access to airports, train stations, and major highways</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start space-x-4">
-                  <div className="bg-gold p-2 rounded-full mt-1">
-                    <ShoppingBag className="w-4 h-4 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-navy">Shopping & Dining</h3>
-                    <p className="text-gray-600">Walking distance to premium shopping and world-class restaurants</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start space-x-4">
-                  <div className="bg-gold p-2 rounded-full mt-1">
-                    <Camera className="w-4 h-4 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-navy">Cultural Attractions</h3>
-                    <p className="text-gray-600">Minutes away from museums, galleries, and historic landmarks</p>
-                  </div>
-                </div>
+
+            <div className="flex items-start space-x-4">
+              <div className="bg-gold p-2 rounded-full mt-1">
+                <ShoppingBag className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-navy">Shopping & Dining</h3>
+                <p className="text-gray-600">Walking distance to premium shopping and world-class restaurants</p>
+              </div>
+            </div>
+
+            <div className="flex items-start space-x-4">
+              <div className="bg-gold p-2 rounded-full mt-1">
+                <Camera className="w-4 h-4 text-white" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-navy">Cultural Attractions</h3>
+                <p className="text-gray-600">Minutes away from museums, galleries, and historic landmarks</p>
               </div>
             </div>
           </div>
@@ -188,13 +196,11 @@ const Location = () => {
       </section>
 
       {/* Nearby Attractions */}
-      <section className="py-20 bg-cream">
+      <section id="attractions" className="py-20 bg-cream">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-navy font-serif">Nearby Attractions</h2>
-            <p className="text-lg text-gray-700">
-              Discover the best of the city from our convenient location
-            </p>
+            <p className="text-lg text-gray-700">Discover the best of the city from our convenient location</p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -221,13 +227,11 @@ const Location = () => {
       </section>
 
       {/* Transportation */}
-      <section className="py-20">
+      <section id="transport" className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold mb-4 text-navy font-serif">Transportation Options</h2>
-            <p className="text-lg text-gray-700">
-              Multiple convenient ways to travel around the city
-            </p>
+            <p className="text-lg text-gray-700">Multiple convenient ways to travel around the city</p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
@@ -249,13 +253,11 @@ const Location = () => {
       </section>
 
       {/* Directions */}
-      <section className="py-20 bg-navy text-white">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="text-center mb-12">
+      <section id="directions" className="py-20 bg-navy text-white">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <div className="mb-12">
             <h2 className="text-4xl font-bold mb-4 font-serif">Getting Here</h2>
-            <p className="text-xl text-white/90">
-              Detailed directions to reach Calm Rest Hotel
-            </p>
+            <p className="text-xl text-white/90">Detailed directions to reach Calm Rest Hotel</p>
           </div>
           
           <div className="grid md:grid-cols-2 gap-8">
@@ -264,20 +266,20 @@ const Location = () => {
                 <Plane className="w-6 h-6 text-gold" />
                 <h3 className="text-xl font-semibold">From Airport</h3>
               </div>
-              <ul className="space-y-2 text-white/90">
+              <ul className="space-y-2 text-white/90 text-left">
                 <li>• Take Airport Express to Central Station (15 min)</li>
                 <li>• Transfer to Metro Line 2 towards Downtown (8 min)</li>
                 <li>• Exit at Luxury District Station</li>
                 <li>• Hotel is 200m from station exit</li>
               </ul>
             </div>
-            
+
             <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6">
               <div className="flex items-center space-x-3 mb-4">
                 <Car className="w-6 h-6 text-gold" />
                 <h3 className="text-xl font-semibold">By Car</h3>
               </div>
-              <ul className="space-y-2 text-white/90">
+              <ul className="space-y-2 text-white/90 text-left">
                 <li>• Take Highway 1 to Downtown Exit 15</li>
                 <li>• Follow signs to Luxury District</li>
                 <li>• Turn right on Luxury Avenue</li>

@@ -35,7 +35,7 @@ const Contact = () => {
     {
       icon: <Phone className="w-6 h-6" />,
       title: 'Phone',
-      details: ['+1 (555) 123-4567', '+1 (555) 123-4568 (Reservations)'],
+      details: ['+94 4122 51712', '+94 710363054 (Reservations)'],
       action: 'Call Now'
     },
     {
@@ -53,7 +53,7 @@ const Contact = () => {
     {
       icon: <Clock className="w-6 h-6" />,
       title: 'Hours',
-      details: ['Front Desk: 24/7', 'Concierge: 6 AM - 11 PM', 'Restaurant: 7 AM - 10 PM'],
+      details: ['24/7'],
       action: 'View Schedule'
     },
   ];
@@ -240,9 +240,12 @@ const Contact = () => {
                   <MapPin className="w-16 h-16 mx-auto mb-4" />
                   <p className="text-lg font-semibold">Interactive Map</p>
                   <p className="text-sm">Google Maps integration would go here</p>
-                  <button className="mt-4 bg-gold text-white px-6 py-2 rounded-full hover:bg-opacity-90 transition-colors">
+                    <button
+                    className="mt-4 bg-gold text-white px-6 py-2 rounded hover:bg-opacity-90 transition-colors"
+                    onClick={() => window.open('https://www.google.com/maps/place/Calm+Rest/@5.9624924,80.3948997,17z/data=!4m9!3m8!1s0x3ae114e826db1595:0x7689ea709c4b1cf2!5m2!4m1!1i2!8m2!3d5.9624924!4d80.3974746!16s%2Fg%2F11cn2zv5kz?entry=ttu&g_ep=EgoyMDI1MDkxNy4wIKXMDSoASAFQAw%3D%3D', '_blank')}
+                    >
                     Open in Google Maps
-                  </button>
+                    </button>
                 </div>
               </div>
               
