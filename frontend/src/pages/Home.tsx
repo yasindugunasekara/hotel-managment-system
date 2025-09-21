@@ -3,13 +3,14 @@ import { ArrowRight, Star, Wifi, Car, Coffee, Dumbbell, Utensils, Waves, Parking
 import { useLanguage } from '../contexts/LanguageContext';
 import BookingForm from '../components/BookingForm';
 
+
 const Home = () => {
   const { t } = useLanguage();
 
   // Scroll to top on component mount
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+ useEffect(() => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}, []);
 
   const featuredRooms = [
     {
@@ -182,7 +183,15 @@ const Home = () => {
           </div>
           
           <div className="text-center mt-12">
-            <button className="bg-navy text-white px-8 py-3 rounded hover:bg-opacity-90 transition-all duration-300 font-medium inline-flex items-center space-x-2">
+            <button
+              className="bg-navy text-white px-8 py-3 rounded hover:bg-opacity-90 transition-all duration-300 font-medium inline-flex items-center space-x-2"
+              onClick={() => {
+                window.scrollTo({ top: 0, behavior: 'auto' });
+              setTimeout(() => {
+                window.location.href = '/rooms';
+              }, 500); // Adjust delay as needed
+              }}
+            >
               <span>{t('viewAll')}</span>
               <ArrowRight size={18} />
             </button>
@@ -235,7 +244,7 @@ const Home = () => {
               ))}
             </div>
             <blockquote className="text-xl italic mb-6">
-              "Absolutely exceptional service and breathtaking views. The attention to detail at Calm Rest is unmatched. 
+              "Absolutely exceptional service and breathtaking views. The attention to detail at Calm Rest is unmatched.
               A truly luxurious experience that exceeded all expectations."
             </blockquote>
             <div className="flex items-center justify-center space-x-3">
