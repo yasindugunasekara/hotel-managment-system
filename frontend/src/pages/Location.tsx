@@ -1,53 +1,50 @@
 import React, { useEffect } from 'react';
-import { MapPin, Plane, Car, Utensils, ShoppingBag, Camera, Clock, Phone, Mail } from 'lucide-react';
+import { MapPin, Plane, Car, Utensils, ShoppingBag, Camera, Clock, Phone, Mail, Waves } from 'lucide-react';
 
 const Location = () => {
   useEffect(() => {
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
   }, []);
 
   const attractions = [
     {
       icon: <Camera className="w-6 h-6" />,
-      name: 'City Museum',
-      distance: '0.5 km',
-      walkTime: '6 min walk',
-      description: 'World-renowned art and cultural exhibits'
-    },
-    {
-      icon: <ShoppingBag className="w-6 h-6" />,
-      name: 'Grand Shopping Mall',
-      distance: '1.2 km',
-      walkTime: '15 min walk',
-      description: 'Premium shopping and dining destination'
-    },
-    {
+      name: 'Weligama Beach',
+      distance: '3.4 km',
+      walkTime: '5 min ',
+      description: 'stunning beach with golden sand and clear waters'
+    },{
       icon: <Utensils className="w-6 h-6" />,
-      name: 'Restaurant District',
-      distance: '0.8 km',
-      walkTime: '10 min walk',
-      description: 'Finest culinary experiences in the city'
+      name: 'Kai Beach',
+      distance: '5 km',
+      walkTime: '6 min ',
+      description: 'Stunning beach with golden sand and clear waters'
+
     },
     {
+      icon: <Waves className="w-6 h-6" />,
+      name: 'Midigama Beach',
+      distance: '950 m',
+      walkTime: '1 min ',
+      description: 'Popular seafood restaurant with ocean views'
+    },{
       icon: <Camera className="w-6 h-6" />,
-      name: 'Waterfront Park',
-      distance: '2.0 km',
-      walkTime: '25 min walk',
-      description: 'Beautiful waterfront views and activities'
-    },
-    {
-      icon: <Plane className="w-6 h-6" />,
-      name: 'International Airport',
-      distance: '15 km',
-      walkTime: '20 min drive',
-      description: 'Major international airport with global connections'
-    },
-    {
-      icon: <Car className="w-6 h-6" />,
-      name: 'Central Train Station',
-      distance: '3.5 km',
-      walkTime: '8 min drive',
-      description: 'High-speed rail connections to major cities'
+      name: 'Secret Kushtarajagala',
+      distance: '3.1 km',
+      walkTime: '5 min ',
+      description: 'attractive ancient rock '
+    },{
+      icon: <ShoppingBag className="w-6 h-6" />,
+      name: 'Galle Dutch Fort',
+      distance: '23.3 km',
+      walkTime: '35 min ',
+      description: 'shopping centers and attractive places'
+    },{
+      icon: <ShoppingBag className="w-6 h-6" />,
+      name: 'Coconut Tree Hill',
+      distance: '12.7 km',
+      walkTime: '20 min ',
+      description: 'picturesque hill with coconut trees and ocean views'
     },
   ];
 
