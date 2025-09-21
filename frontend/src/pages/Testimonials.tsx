@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
 const Testimonials = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+
+  // ✅ Scroll to top smoothly when page loads
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   const testimonials = [
     {

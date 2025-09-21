@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Phone, Mail, MapPin, Clock, Send, MessageCircle, Facebook, Instagram, Linkedin } from 'lucide-react';
 
 const Contact = () => {
@@ -10,6 +10,11 @@ const Contact = () => {
     message: '',
   });
 
+  // ✅ Scroll to top smoothly when page loads
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
@@ -19,7 +24,6 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission
     console.log('Form submitted:', formData);
     alert('Thank you for your message! We will get back to you soon.');
     setFormData({
@@ -242,7 +246,7 @@ const Contact = () => {
                   <p className="text-sm">Google Maps integration would go here</p>
                     <button
                     className="mt-4 bg-gold text-white px-6 py-2 rounded hover:bg-opacity-90 transition-colors"
-                    onClick={() => window.open('https://www.google.com/maps/place/Calm+Rest/@5.9624924,80.3948997,17z/data=!4m9!3m8!1s0x3ae114e826db1595:0x7689ea709c4b1cf2!5m2!4m1!1i2!8m2!3d5.9624924!4d80.3974746!16s%2Fg%2F11cn2zv5kz?entry=ttu&g_ep=EgoyMDI1MDkxNy4wIKXMDSoASAFQAw%3D%3D', '_blank')}
+                    onClick={() => window.open('https://www.google.com/maps/place/Calm+Rest/@5.9624924,80.3948997,17z/data=!4m9!3m8!1s0x3ae114e826db1595:0x7689ea709c4b1cf2!5m2!4m1!1i2!8m2!3d5.9624924!4d80.3974746!16s%2Fg%2F11cn2zv5kz?entry=ttu', '_blank')}
                     >
                     Open in Google Maps
                     </button>
