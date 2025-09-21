@@ -109,9 +109,17 @@ const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
-              <button className="bg-gold text-white px-6 py-2 rounded hover:bg-opacity-90 transition-all duration-300 font-medium">
+                <button
+                className="bg-gold text-white px-6 py-2 rounded hover:bg-opacity-90 transition-all duration-300 font-medium"
+                onClick={() => {
+                  const bookingSection = document.querySelector('.py-16.bg-cream');
+                  if (bookingSection) {
+                  bookingSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+                >
                 {t('bookNow')}
-              </button>
+                </button>
             </div>
 
             {/* Mobile menu button */}
@@ -144,8 +152,16 @@ const Navbar = () => {
                   {item.name}
                 </Link>
               ))}
-              <div className="px-3 pt-2">
-                <button className="w-full bg-gold text-white px-6 py-2 rounded hover:bg-opacity-90 transition-all duration-300 font-medium">
+                <div className="px-3 pt-2">
+                <button
+                  className="w-full bg-gold text-white px-6 py-2 rounded hover:bg-opacity-90 transition-all duration-300 font-medium"
+                  onClick={() => {
+                  const bookingSection = document.querySelector('.py-16.bg-cream');
+                  if (bookingSection) {
+                    bookingSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                  }}
+                >
                   {t('bookNow')}
                 </button>
               </div>
