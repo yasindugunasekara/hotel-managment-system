@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Star, Wifi, Car, Coffee, Users, Bed, Bath, Eye } from 'lucide-react';
+import { Star, Wifi, Car, Coffee, Users, Bed, Bath, Eye, ShowerHeadIcon, AirVent, Space } from 'lucide-react';
 
 const Rooms = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   // Scroll to top when page loads
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
+  // useEffect(() => {
+  //   window.scrollTo({ top: 0, behavior: 'smooth' });
+  // }, []);
 
   const rooms = [
     {
@@ -17,87 +17,82 @@ const Rooms = () => {
       image:
         'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=600',
       price: 149,
-      rating: 4.5,
+      rating: 4.7,
       size: '25 sqm',
       guests: 2,
-      bed: 'Queen Bed',
-      amenities: ['Free WiFi', 'Air Conditioning', 'Mini Bar', 'Room Service'],
+      bed: 'king Bed',
+      amenities: ['Free WiFi','Hot water'],
       features: [
         { icon: <Wifi size={16} />, name: 'Free WiFi' },
-        { icon: <Coffee size={16} />, name: 'Coffee Machine' },
+        { icon: <ShowerHeadIcon size={16} />, name: 'Hot Water' },
         { icon: <Car size={16} />, name: 'Parking' },
       ],
       description:
-        'Elegant and comfortable room with modern amenities and city views.',
+        'Elegant and comfortable room with modern amenities and rooftop view.',
     },
     {
       id: 2,
-      name: 'Deluxe Ocean Suite',
-      category: 'deluxe',
+      name: 'Sea view Deluxe Room',
+      category: 'sea view',
       image:
         'https://images.pexels.com/photos/1743231/pexels-photo-1743231.jpeg?auto=compress&cs=tinysrgb&w=600',
       price: 299,
       rating: 4.8,
-      size: '45 sqm',
-      guests: 3,
+      size: '25 sqm',
+      guests: 2,
       bed: 'King Bed',
       amenities: [
         'Ocean View',
         'Balcony',
-        'Premium WiFi',
-        'Butler Service',
-        'Mini Bar',
       ],
       features: [
         { icon: <Eye size={16} />, name: 'Ocean View' },
-        { icon: <Coffee size={16} />, name: 'Premium Service' },
-        { icon: <Car size={16} />, name: 'Valet Parking' },
+        { icon: <Wifi size={16} />, name: 'WiFi' },
+        
       ],
       description:
         'Spacious suite with breathtaking ocean views and luxury amenities.',
     },
     {
       id: 3,
-      name: 'Executive Business Suite',
-      category: 'executive',
+      name: 'Air Conditioned Double Room',
+      category: 'Air Conditioned',
       image:
         'https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg?auto=compress&cs=tinysrgb&w=600',
       price: 199,
       rating: 4.6,
-      size: '35 sqm',
+      size: '25 sqm',
       guests: 2,
       bed: 'King Bed',
       amenities: [
         'Work Desk',
-        'Meeting Space',
+        'Hot Water',
         'High-Speed WiFi',
-        'Printer Access',
+        'Air Conditioning',
       ],
       features: [
         { icon: <Wifi size={16} />, name: 'High-Speed WiFi' },
-        { icon: <Coffee size={16} />, name: 'Business Lounge' },
-        { icon: <Car size={16} />, name: 'Express Check-in' },
+        { icon: <AirVent size={16} />, name: 'Air Conditioning' },
+        { icon: <Space size={16} />, name: 'Balcony' },
       ],
       description:
         'Perfect for business travelers with dedicated workspace and meeting facilities.',
     },
     {
       id: 4,
-      name: 'Presidential Penthouse',
-      category: 'presidential',
+      name: 'large Family Room',
+      category: 'family',
       image:
         'https://images.pexels.com/photos/2467558/pexels-photo-2467558.jpeg?auto=compress&cs=tinysrgb&w=600',
       price: 699,
       rating: 5.0,
-      size: '120 sqm',
-      guests: 6,
-      bed: 'Master Suite + 2 Bedrooms',
+      size: '45 sqm',
+      guests: 3,
+      bed: 'Master Suite + 1 Bedrooms',
       amenities: [
         'Panoramic View',
         'Private Terrace',
-        'Butler Service',
-        'Personal Chef',
-        'Spa Access',
+        "large space"
       ],
       features: [
         { icon: <Eye size={16} />, name: 'Panoramic Views' },
@@ -106,58 +101,7 @@ const Rooms = () => {
       ],
       description:
         'Ultimate luxury with panoramic city views, private terrace, and personalized services.',
-    },
-    {
-      id: 5,
-      name: 'Family Connecting Rooms',
-      category: 'family',
-      image:
-        'https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: 249,
-      rating: 4.7,
-      size: '50 sqm',
-      guests: 5,
-      bed: '2 Queen Beds',
-      amenities: [
-        'Connecting Rooms',
-        'Kids Area',
-        'Babysitting Service',
-        'Family Games',
-      ],
-      features: [
-        { icon: <Users size={16} />, name: 'Family Friendly' },
-        { icon: <Coffee size={16} />, name: 'Kids Menu' },
-        { icon: <Car size={16} />, name: 'Family Parking' },
-      ],
-      description:
-        'Spacious connecting rooms perfect for families with children-focused amenities.',
-    },
-    {
-      id: 6,
-      name: 'Romantic Honeymoon Suite',
-      category: 'romantic',
-      image:
-        'https://images.pexels.com/photos/271639/pexels-photo-271639.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: 399,
-      rating: 4.9,
-      size: '60 sqm',
-      guests: 2,
-      bed: 'King Bed',
-      amenities: [
-        'Jacuzzi',
-        'Champagne Service',
-        'Rose Petals',
-        'Candlelit Dinner',
-        'Spa Package',
-      ],
-      features: [
-        { icon: <Eye size={16} />, name: 'Romantic Setting' },
-        { icon: <Coffee size={16} />, name: 'Champagne Service' },
-        { icon: <Bath size={16} />, name: 'Private Jacuzzi' },
-      ],
-      description:
-        'Intimate and romantic suite perfect for honeymoons and special occasions.',
-    },
+    }
   ];
 
   const categories = [
@@ -168,30 +112,21 @@ const Rooms = () => {
       count: rooms.filter((r) => r.category === 'standard').length,
     },
     {
-      id: 'deluxe',
-      name: 'Deluxe',
-      count: rooms.filter((r) => r.category === 'deluxe').length,
+      id: 'sea view',
+      name: 'Sea View',
+      count: rooms.filter((r) => r.category === 'sea view').length,
     },
     {
-      id: 'executive',
-      name: 'Executive',
-      count: rooms.filter((r) => r.category === 'executive').length,
+      id: 'Air Conditioned',
+      name: 'Air Conditioned',
+      count: rooms.filter((r) => r.category === 'Air Conditioned').length,
     },
-    {
-      id: 'presidential',
-      name: 'Presidential',
-      count: rooms.filter((r) => r.category === 'presidential').length,
-    },
+    
     {
       id: 'family',
       name: 'Family',
       count: rooms.filter((r) => r.category === 'family').length,
-    },
-    {
-      id: 'romantic',
-      name: 'Romantic',
-      count: rooms.filter((r) => r.category === 'romantic').length,
-    },
+    }
   ];
 
   const filteredRooms =
@@ -223,21 +158,24 @@ const Rooms = () => {
       </section>
 
       {/* Filter Tabs */}
-      <section className="py-8 bg-cream">
+      <section className="py-8 ">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex flex-wrap justify-center gap-2">
             {categories.map((category) => (
-              <button
+                <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                className={`px-6 py-3 rounded font-medium transition-all duration-300 relative ${
                   selectedCategory === category.id
-                    ? 'bg-gold text-white shadow-lg'
-                    : 'bg-white text-navy hover:bg-gold hover:text-white'
+                  ? 'text-gold '
+                  : 'bg-white text-navy hover:text-gold'
                 }`}
-              >
-                {category.name} ({category.count})
-              </button>
+                >
+                {category.name}
+                {selectedCategory === category.id && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-gold "></span>
+                )}
+                </button>
             ))}
           </div>
         </div>
