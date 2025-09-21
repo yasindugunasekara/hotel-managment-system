@@ -53,14 +53,14 @@ const Footer = () => {
               <div className="flex items-start space-x-3">
                 <MapPin size={20} className="text-gold mt-1 flex-shrink-0" />
                 <div>
-                  <p className="text-gray-300">123 Luxury Avenue</p>
-                  <p className="text-gray-300">Downtown District</p>
-                  <p className="text-gray-300">City, State 12345</p>
+                  <p className="text-gray-300"> Arachchi gedara</p>
+                  <p className="text-gray-300"> Midigama</p>
+                  <p className="text-gray-300">Ahangama</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Phone size={20} className="text-gold" />
-                <p className="text-gray-300">+1 (555) 123-4567</p>
+                <p className="text-gray-300">+94 412251712</p>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail size={20} className="text-gold" />

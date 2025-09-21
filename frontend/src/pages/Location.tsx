@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { MapPin, Plane, Car, Utensils, ShoppingBag, Camera, Clock, Phone, Mail, Waves } from 'lucide-react';
+import { MapPin, Plane, Car, Utensils, ShoppingBag, Camera, Clock, Phone, Mail, Waves, Bike } from 'lucide-react';
 
 const Location = () => {
   useEffect(() => {
-    // window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, []);
 
   const attractions = [
@@ -50,10 +50,10 @@ const Location = () => {
 
   const transportOptions = [
     {
-      icon: <Car className="w-8 h-8" />,
-      title: 'Hotel Shuttle',
-      description: 'Complimentary shuttle service to key destinations',
-      schedule: 'Every 30 minutes, 7 AM - 11 PM'
+      icon: <Bike className="w-8 h-8" />,
+      title: 'Bike Rentals',
+      description: 'Complimentary bike rentals for exploring the area',
+      schedule: 'Available daily, 8 AM - 8 PM'
     },
     {
       icon: <Car className="w-8 h-8" />,
