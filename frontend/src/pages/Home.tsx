@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ArrowRight, Star, Wifi, Car, Coffee, Dumbbell, Utensils, Waves } from 'lucide-react';
+import { ArrowRight, Star, Wifi, Car, Coffee, Dumbbell, Utensils, Waves, ParkingCircle } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import BookingForm from '../components/BookingForm';
 
@@ -36,10 +36,10 @@ const Home = () => {
   ];
 
   const services = [
-    { icon: <Utensils className="w-8 h-8" />, title: 'Fine Dining', description: 'Michelin-starred cuisine' },
-    { icon: <Waves className="w-8 h-8" />, title: 'Spa & Wellness', description: 'Rejuvenating treatments' },
-    { icon: <Dumbbell className="w-8 h-8" />, title: 'Fitness Center', description: '24/7 modern equipment' },
-    { icon: <Car className="w-8 h-8" />, title: 'Valet Service', description: 'Luxury transportation' },
+    { icon: <Wifi className="w-8 h-8" />, title: 'Free Wi-Fi', description: 'Stay connected with high-speed internet' },
+    { icon: <Car className="w-8 h-8" />, title: 'Airport Shuttle', description: 'Convenient transport services to and from the airport' },
+    { icon: <Star className="w-8 h-8" />, title: '24/7 Service', description: 'Round-the-clock assistance for all your needs' },
+    { icon: <ParkingCircle className="w-8 h-8" />, title: 'Parking Space', description: 'Secure and spacious parking area for your vehicles' },
   ];
 
   return (
@@ -61,7 +61,15 @@ const Home = () => {
             {t('heroSubtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-gold text-white px-20 py-4  text-lg font-medium hover:bg-opacity-90 rounded transition-all duration-300 transform hover:scale-105">
+            <button
+              className="bg-gold text-white px-20 py-4  text-lg font-medium hover:bg-opacity-90 rounded transition-all duration-300 transform hover:scale-105"
+              onClick={() => {
+              const bookingSection = document.querySelector('.py-16.bg-cream');
+              if (bookingSection) {
+                bookingSection.scrollIntoView({ behavior: 'smooth' });
+              }
+              }}
+            >
               {t('bookNow')}
             </button>
             <button
@@ -74,12 +82,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Booking Form Section */}
-      <section className="py-16 bg-cream">
-        <div className="max-w-4xl mx-auto px-4">
-          <BookingForm />
-        </div>
-      </section>
+      
 
       {/* About Section */}
       <section className="py-20 bg-white">
@@ -179,11 +182,17 @@ const Home = () => {
           </div>
           
           <div className="text-center mt-12">
-            <button className="bg-navy text-white px-8 py-3 rounded hover:bg-opacity-0 transition-all duration-300 font-medium inline-flex items-center space-x-2">
+            <button className="bg-navy text-white px-8 py-3 rounded hover:bg-opacity-90 transition-all duration-300 font-medium inline-flex items-center space-x-2">
               <span>{t('viewAll')}</span>
               <ArrowRight size={18} />
             </button>
           </div>
+        </div>
+      </section>
+      {/* Booking Form Section */}
+      <section className="py-16 bg-cream">
+        <div className="max-w-4xl mx-auto px-4">
+          <BookingForm />
         </div>
       </section>
 
@@ -243,7 +252,7 @@ const Home = () => {
           </div>
           
           <button className="mt-8 bg-gold text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium inline-flex items-center space-x-2">
-            <span>Read More Reviews</span>
+            <span onClick={() => window.location.href = '/testimonials'}>Read More Reviews</span>
             <ArrowRight size={18} />
           </button>
         </div>

@@ -139,7 +139,7 @@ const Location = () => {
           <div className="rounded-lg overflow-hidden h-96">
             <iframe
               title="Calm Rest Hotel Map"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.0195110302353!2d-122.4194150846816!3d37.77492977975959!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085808cba7b4395%3A0x804deed5c7778c7c!2sSan+Francisco%2C+CA%2C+USA!5e0!3m2!1sen!2sin!4v1500000000000"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3968.2338415574786!2d80.39489967498828!3d5.962492394022205!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae114e826db1595%3A0x7689ea709c4b1cf2!2sCalm%20Rest!5e0!3m2!1sen!2slk!4v1758386795272!5m2!1sen!2slk"
               width="100%"
               height="100%"
               className="border-0"
@@ -148,7 +148,10 @@ const Location = () => {
             />
           </div>
           <div className="text-center mt-4">
-            <button className="bg-gold text-white px-6 py-2 rounded-full hover:bg-opacity-90 transition-colors">
+            <button
+              className="bg-gold text-white px-6 py-2 rounded hover:bg-opacity-90 transition-colors"
+              onClick={() => window.open('https://www.google.com/maps/place/Calm+Rest/@5.9624924,80.3948997,17z/data=!4m9!3m8!1s0x3ae114e826db1595:0x7689ea709c4b1cf2!5m2!4m1!1i2!8m2!3d5.9624924!4d80.3974746!16s%2Fg%2F11cn2zv5kz?entry=ttu&g_ep=EgoyMDI1MDkxNy4wIKXMDSoASAFQAw%3D%3D', '_blank')}
+            >
               Open in Google Maps
             </button>
           </div>
@@ -289,7 +292,7 @@ const Location = () => {
           </div>
           
           <div className="text-center mt-12">
-            <button className="bg-gold text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium">
+            <button className="bg-gold text-white px-8 py-3 rounded hover:bg-opacity-90 transition-all duration-300 font-medium">
               Get Detailed Directions
             </button>
           </div>
