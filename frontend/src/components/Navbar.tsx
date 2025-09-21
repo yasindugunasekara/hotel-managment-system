@@ -30,17 +30,10 @@ const Navbar = () => {
   return (
     <>
       {/* Top bar */}
-      <div className="bg-navy text-white py-2 px-4 text-sm">
+      <div className="bg-white text-navy py-1 px-4 text-sm">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-6">
-            <div className="flex items-center space-x-2">
-              <Phone size={14} />
-              <span>+1 (555) 123-4567</span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Mail size={14} />
-              <span>info@calmrest.com</span>
-            </div>
+            
           </div>
           
           {/* Language Selector */}
