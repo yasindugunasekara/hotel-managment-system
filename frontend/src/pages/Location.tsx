@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { MapPin, Plane, Car, Utensils, ShoppingBag, Camera, Clock, Phone, Mail, Waves, Bike } from 'lucide-react';
 
 const Location = () => {
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+ useEffect(() => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}, []);
 
   const attractions = [
     {
@@ -109,16 +109,16 @@ const Location = () => {
             </div>
             <h2 className="text-3xl font-bold mb-4 text-navy font-serif">Calm Rest Hotel</h2>
             <div className="text-lg text-gray-700 space-y-2 mb-8">
-              <p>123 Luxury Avenue</p>
-              <p>Downtown District</p>
-              <p>Metropolitan City, State 12345</p>
-              <p>United States</p>
+              <p> Calm Rest </p>
+              <p>Midigama</p>
+              <p>Ahangama</p>
+              <p> Sri Lanka</p>
             </div>
             
             <div className="grid md:grid-cols-2 gap-6">
               <div className="flex items-center justify-center space-x-3">
                 <Phone className="w-5 h-5 text-gold" />
-                <span className="text-gray-700">+1 (555) 123-4567</span>
+                <span className="text-gray-700">+94 412251712</span>
               </div>
               <div className="flex items-center justify-center space-x-3">
                 <Mail className="w-5 h-5 text-gold" />
