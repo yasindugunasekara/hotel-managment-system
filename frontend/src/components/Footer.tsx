@@ -8,41 +8,12 @@ const Footer = () => {
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle newsletter signup
-    console.log('Newsletter signup:', email);
-    setEmail('');
-    alert('Thank you for subscribing!');
+
   };
 
   return (
     <footer className="bg-navy text-white">
-      {/* Newsletter Section */}
-      <div className="bg-gold py-16">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h3 className="text-3xl font-serif font-bold text-white mb-4">
-            {t('newsletter')}
-          </h3>
-          <p className="text-white/90 mb-8 text-lg">
-            {t('newsletterText')}
-          </p>
-          <form onSubmit={handleNewsletterSubmit} className="flex max-w-md mx-auto">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email address"
-              className="flex-1 px-4 py-3 rounded-l-full text-navy focus:outline-none focus:ring-2 focus:ring-white"
-              required
-            />
-            <button
-              type="submit"
-              className="bg-navy text-white px-6 py-3 rounded-r-full hover:bg-gray-800 transition-colors flex items-center space-x-2"
-            >
-              <Send size={18} />
-            </button>
-          </form>
-        </div>
-      </div>
+  
 
       {/* Main Footer */}
       <div className="py-16">
@@ -59,7 +30,7 @@ const Footer = () => {
               </div>
             </div>
             <p className="text-gray-300 mb-6 leading-relaxed">
-              Experience unparalleled luxury at Calm Rest, where modern elegance meets timeless comfort. 
+              Experience unparalleled luxury at Calm Rest, where modern elegance meets timeless comfort.
               Our meticulously designed spaces offer the perfect sanctuary for discerning travelers.
             </p>
             <div className="flex space-x-4">
