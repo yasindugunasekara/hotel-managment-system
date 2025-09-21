@@ -223,12 +223,12 @@ const Home = () => {
       </section>
 
       {/* Testimonials Preview */}
-      <section className="py-20 bg-navy text-white">
+      <section className="py-20 bg-gold text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-4 font-serif">What Our Guests Say</h2>
           <p className="text-xl text-white/90 mb-12">Testimonials from our valued guests</p>
           
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8">
+          <div className="bg-navy/90 backdrop-blur-sm rounded-lg p-8">
             <div className="flex justify-center mb-4">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} fill="currentColor" className="text-gold w-6 h-6" />
@@ -251,7 +251,7 @@ const Home = () => {
             </div>
           </div>
           
-          <button className="mt-8 bg-gold text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium inline-flex items-center space-x-2">
+          <button className="mt-8 bg-navy text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium inline-flex items-center space-x-2">
             <span onClick={() => window.location.href = '/testimonials'}>Read More Reviews</span>
             <ArrowRight size={18} />
           </button>
