@@ -2,40 +2,18 @@ import React, { useEffect } from 'react';
 import { ArrowRight, Star, Wifi, Car, Coffee, Dumbbell, Utensils, Waves, ParkingCircle } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import BookingForm from '../components/BookingForm';
+import { rooms} from "../data/roomsData";
 
 
 const Home = () => {
   const { t } = useLanguage();
 
   // Scroll to top on component mount
- useEffect(() => {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}, []);
+// useEffect(() => {
+//   window.scrollTo({ top: 0, behavior: 'smooth' });
+// }, []);
 
-  const featuredRooms = [
-    {
-      id: 1,
-      name: 'Deluxe Ocean Suite',
-      image: 'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: '$299',
-      features: ['Ocean View', 'King Bed', 'Balcony'],
-    },
-    {
-      id: 2,
-      name: 'Executive Business Suite',
-      image: 'https://images.pexels.com/photos/1743231/pexels-photo-1743231.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: '$199',
-      features: ['City View', 'Work Desk', 'Meeting Space'],
-    },
-    {
-      id: 3,
-      name: 'Presidential Penthouse',
-      image: 'https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: '$699',
-      features: ['Panoramic View', 'Private Terrace', 'Butler Service'],
-    },
-  ];
-
+  const featuredRooms = rooms.slice(0, 3); // Get first 3 rooms as featured
   const services = [
     { icon: <Wifi className="w-8 h-8" />, title: 'Free Wi-Fi', description: 'Stay connected with high-speed internet' },
     { icon: <Car className="w-8 h-8" />, title: 'Airport Shuttle', description: 'Convenient transport services to and from the airport' },
@@ -169,8 +147,8 @@ const Home = () => {
                   <h3 className="text-xl font-semibold mb-3 text-navy">{room.name}</h3>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {room.features.map((feature, index) => (
-                      <span key={index} className="text-sm bg-cream px-3 py-1  text-gray-600">
-                        {feature}
+                      <span key={index} className="text-sm  px-3 py-1  text-gray-600 rounded-full flex items-center space-x-1">
+                        {feature.icon} <span>{feature.name}</span>
                       </span>
                     ))}
                   </div>
