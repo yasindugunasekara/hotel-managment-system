@@ -43,10 +43,7 @@ useEffect(() => {
             <button
               className="bg-gold text-white px-20 py-4  text-lg font-medium hover:bg-opacity-90 rounded transition-all duration-300 transform hover:scale-105"
               onClick={() => {
-              const bookingSection = document.querySelector('.py-16.bg-cream');
-              if (bookingSection) {
-                bookingSection.scrollIntoView({ behavior: 'smooth' });
-              }
+              window.location.href = '/book';
               }}
             >
               {t('bookNow')}
@@ -152,9 +149,7 @@ useEffect(() => {
                       </span>
                     ))}
                   </div>
-                  <button className="w-full bg-gold text-white py-2 px-4 rounded hover:bg-opacity-90 transition-all duration-300 font-medium">
-                    {t('bookNow')}
-                  </button>
+                  
                 </div>
               </div>
             ))}
@@ -176,12 +171,7 @@ useEffect(() => {
           </div>
         </div>
       </section>
-      {/* Booking Form Section */}
-      <section className="py-16 bg-cream">
-        <div className="max-w-4xl mx-auto px-4">
-          <BookingForm />
-        </div>
-      </section>
+     
 
       {/* Services Section */}
       <section className="py-20 bg-white">
@@ -238,7 +228,7 @@ useEffect(() => {
             </div>
           </div>
           
-          <button className="mt-8 bg-navy text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium inline-flex items-center space-x-2">
+          <button className="mt-8 bg-navy text-white px-8 py-3 rounded hover:bg-opacity-90 transition-all duration-300 font-medium inline-flex items-center space-x-2">
             <span onClick={() => window.location.href = '/testimonials'}>Read More Reviews</span>
             <ArrowRight size={18} />
           </button>

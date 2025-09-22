@@ -156,7 +156,9 @@ const Testimonials = () => {
             >
               Write a Review
             </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded hover:bg-white hover:text-navy transition-all duration-300 font-medium">
+            <button className="border-2 border-white text-white px-8 py-3 rounded hover:bg-white hover:text-navy transition-all duration-300 font-medium"
+              onClick={() => window.location.href = '/book'}
+            >
               Book Your Stay
             </button>
           </div>

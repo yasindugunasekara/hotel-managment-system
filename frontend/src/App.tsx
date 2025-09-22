@@ -12,6 +12,7 @@ import WriteReview from './pages/WriteReview';
 import Contact from './pages/Contact';
 import Profile from './pages/Profile';
 import { LanguageProvider } from './contexts/LanguageContext';
+import BookingPage from "./pages/BookingPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               <Route path="/testimonials" element={<Testimonials />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/book" element={<BookingPage />} />
             </Routes>
           </main>
           <Footer />
