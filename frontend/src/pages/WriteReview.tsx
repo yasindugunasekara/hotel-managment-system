@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {categories} from "../data/roomsData";
 
 const WriteReview = () => {
   const [name, setName] = useState('');
   const [review, setReview] = useState('');
   const [rating, setRating] = useState(5);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

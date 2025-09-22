@@ -98,7 +98,9 @@ export const rooms = [
   ];
 
   export const categories = [
-    { id: 'all', name: 'All Rooms', count: rooms.length },
+    { id: 'all',
+      name: 'All Rooms',
+      count: rooms.length },
     {
       id: 'standard',
       name: 'Standard',

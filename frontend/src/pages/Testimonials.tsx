@@ -142,6 +142,27 @@ const Testimonials = () => {
         </div>
       </section>
 
+  {/* Review CTA */}
+  <section className="py-16 bg-navy/50 text-white text-center">
+        <div className="max-w-4xl mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-4 font-serif">Share Your Experience</h2>
+          <p className="text-xl text-white/90 mb-8">
+            We'd love to hear about your stay at Calm Rest Hotel
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              className="bg-gold text-white px-8 py-3 rounded hover:bg-opacity-90 transition-all duration-300 font-medium"
+              onClick={() => window.location.href = '/write-review'}
+            >
+              Write a Review
+            </button>
+            <button className="border-2 border-white text-white px-8 py-3 rounded hover:bg-white hover:text-navy transition-all duration-300 font-medium">
+              Book Your Stay
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* All Reviews Grid */}
       <section className="py-20 bg-cream">
         <div className="max-w-7xl mx-auto px-4">
@@ -190,26 +211,8 @@ const Testimonials = () => {
         </div>
       </section>
 
-      {/* Review CTA */}
-      <section className="py-16 bg-navy text-white text-center">
-        <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-4 font-serif">Share Your Experience</h2>
-          <p className="text-xl text-white/90 mb-8">
-            We'd love to hear about your stay at Calm Rest Hotel
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              className="bg-gold text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium"
-              onClick={() => window.location.href = '/write-review'}
-            >
-              Write a Review
-            </button>
-            <button className="border-2 border-white text-white px-8 py-3 rounded-full hover:bg-white hover:text-navy transition-all duration-300 font-medium">
-              Book Your Stay
-            </button>
-          </div>
-        </div>
-      </section>
+    
+      
     </div>
   );
 };

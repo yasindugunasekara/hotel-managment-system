@@ -9,9 +9,9 @@ const Home = () => {
   const { t } = useLanguage();
 
   // Scroll to top on component mount
-// useEffect(() => {
-//   window.scrollTo({ top: 0, behavior: 'smooth' });
-// }, []);
+useEffect(() => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}, []);
 
   const featuredRooms = rooms.slice(0, 3); // Get first 3 rooms as featured
   const services = [
