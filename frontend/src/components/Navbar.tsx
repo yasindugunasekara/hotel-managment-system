@@ -23,7 +23,7 @@ const Navbar = () => {
     { name: t('about'), href: '/about' },
     // { name: t('services'), href: '/services' },
     { name: t('location'), href: '/location' },
-    { name: t('testimonials'), href: '/testimonials' },
+    { name: t('Reviews'), href: '/Testimonials' },
     { name: t('contact'), href: '/contact' },
   ];
 
