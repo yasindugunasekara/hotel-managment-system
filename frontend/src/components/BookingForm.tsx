@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Calendar, Users, MessageCircle } from 'lucide-react';
+import { Calendar, Users, MessageCircle, BookA } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { rooms,categories } from "../data/roomsData";
 
 interface BookingFormProps {
   className?: string;
@@ -29,7 +30,7 @@ Please let me know about availability and pricing. Thank you!`;
 
   return (
     <form onSubmit={handleBookingSubmit} className={`bg-white p-6 rounded-lg shadow-lg ${className}`}>
-      <h3 className="text-xl font-semibold mb-6 text-navy font-serif">Book Your Stay</h3>
+      <h3 className="text-xl font-semibold mb-6 text-navy font-serif text-center">Book Your Stay</h3>
       
       <div className="grid md:grid-cols-2 gap-4 mb-4">
         <div>
@@ -60,7 +61,21 @@ Please let me know about availability and pricing. Thank you!`;
           />
         </div>
       </div>
-      
+      <div className="mb-6">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Room Type
+        </label>
+        <select
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
+          required
+        >
+            {rooms.map((room) => (
+            <option key={room.id} value={room.name}>
+              {room.name}
+            </option>
+            ))}
+        </select>
+      </div>
       <div className="mb-6">
         <label className="block text-sm font-medium text-gray-700 mb-2">
           <Users size={16} className="inline mr-2" />
@@ -81,8 +96,8 @@ Please let me know about availability and pricing. Thank you!`;
         type="submit"
         className="w-full bg-gold text-white py-3 px-6 rounded hover:bg-opacity-90 transition-all duration-300 font-medium flex items-center justify-center space-x-2"
       >
-        <MessageCircle size={18} />
-        <span>Book via WhatsApp</span>
+        <BookA size={18} />
+        <span>Book</span>
       </button>
     </form>
   );

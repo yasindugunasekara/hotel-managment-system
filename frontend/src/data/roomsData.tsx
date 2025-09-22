@@ -45,8 +45,33 @@ export const rooms = [
       description:
         'Spacious suite with breathtaking ocean views and luxury amenities.',
     },
+    
     {
       id: 3,
+      name: 'large Family Room',
+      category: 'family',
+      image:
+        'https://images.pexels.com/photos/2467558/pexels-photo-2467558.jpeg?auto=compress&cs=tinysrgb&w=600',
+      price: 699,
+      rating: 5.0,
+      size: '45 sqm',
+      guests: 3,
+      bed: 'Master Suite + 1 Bedrooms',
+      amenities: [
+        'Panoramic View',
+        'Private Terrace',
+        "large space"
+      ],
+      features: [
+        { icon: <Eye size={16} />, name: 'Panoramic Views' },
+        
+        { icon: <Car size={16} />, name: 'privat balcony' },
+      ],
+      description:
+        'Ultimate luxury with panoramic city views, private terrace, and personalized services.',
+    },
+    {
+      id: 4,
       name: 'Air Conditioned Double Room',
       category: 'Air Conditioned',
       image:
@@ -68,31 +93,7 @@ export const rooms = [
         { icon: <Space size={16} />, name: 'Balcony' },
       ],
       description:
-        'Perfect for business travelers with dedicated workspace and meeting facilities.',
-    },
-    {
-      id: 4,
-      name: 'large Family Room',
-      category: 'family',
-      image:
-        'https://images.pexels.com/photos/2467558/pexels-photo-2467558.jpeg?auto=compress&cs=tinysrgb&w=600',
-      price: 699,
-      rating: 5.0,
-      size: '45 sqm',
-      guests: 3,
-      bed: 'Master Suite + 1 Bedrooms',
-      amenities: [
-        'Panoramic View',
-        'Private Terrace',
-        "large space"
-      ],
-      features: [
-        { icon: <Eye size={16} />, name: 'Panoramic Views' },
-        { icon: <Coffee size={16} />, name: 'Personal Butler' },
-        { icon: <Car size={16} />, name: 'Limousine Service' },
-      ],
-      description:
-        'Ultimate luxury with panoramic city views, private terrace, and personalized services.',
+        'Perfect for business travelers with dedicated workspace and meeting facilities.'
     }
   ];
 
