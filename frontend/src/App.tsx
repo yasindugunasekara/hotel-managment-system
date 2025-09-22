@@ -8,6 +8,7 @@ import About from './pages/About';
 import Services from './pages/Services';
 import Location from './pages/Location';
 import Testimonials from './pages/Testimonials';
+import WriteReview from './pages/WriteReview';
 import Contact from './pages/Contact';
 import Profile from './pages/Profile';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -23,7 +24,9 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/rooms" element={<Rooms />} />
               <Route path="/about" element={<About />} />
-              {/* <Route path="/services" element={<Services />} /> */}
+
+              <Route path="/write-review" element={<WriteReview/>} />
+
               <Route path="/location" element={<Location />} />
               <Route path="/testimonials" element={<Testimonials />} />
               <Route path="/contact" element={<Contact />} />
