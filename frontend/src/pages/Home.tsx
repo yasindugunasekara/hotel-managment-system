@@ -75,7 +75,7 @@ const Home = () => {
             </button>
             <button
               className="border-2 border-white text-white px-20 py-4  text-lg font-medium hover:bg-white hover:text-navy transition-all duration-300 rounded"
-              onClick={() => window.location.href = 'https://www.booking.com/hotel/lk/the-calm-rest.en-gb.html'}
+              onClick={() => window.open('https://www.booking.com/hotel/lk/the-calm-rest.en-gb.html', '_blank')}
             >
               {t('learnMore')}
             </button>
