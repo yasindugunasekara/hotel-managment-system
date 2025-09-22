@@ -5,9 +5,9 @@ const Rooms = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   // Scroll to top when page loads
-  // useEffect(() => {
-  //   window.scrollTo({ top: 0, behavior: 'smooth' });
-  // }, []);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   const rooms = [
     {
