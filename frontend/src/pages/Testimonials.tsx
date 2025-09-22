@@ -6,9 +6,9 @@ const Testimonials = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   // Scroll to top when page loads
-  // useEffect(() => {
-  //   window.scrollTo({ top: 0, behavior: 'smooth' });
-  // }, []);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
@@ -198,7 +198,10 @@ const Testimonials = () => {
             We'd love to hear about your stay at Calm Rest Hotel
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-gold text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium">
+            <button
+              className="bg-gold text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium"
+              onClick={() => window.location.href = '/write-review'}
+            >
               Write a Review
             </button>
             <button className="border-2 border-white text-white px-8 py-3 rounded-full hover:bg-white hover:text-navy transition-all duration-300 font-medium">
