@@ -22,8 +22,8 @@ app.get('/', (req, res) => res.send('Calm Rest Backend is running'));
 mongoose
   .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
-    console.log('Connected to MongoDB');
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    console.log('Connected to MongoDB ✅');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT} ✅`));
   })
   .catch((err) => {
     console.error('MongoDB connection error:', err.message);

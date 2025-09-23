@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Testimonial = require('../models/Testimonial');
 
-// GET /api/testimonials - fetch all testimonials
+// ✅ GET /api/testimonials - fetch all testimonials
 router.get('/get', async (req, res) => {
   try {
     const testimonials = await Testimonial.find().sort({ createdAt: -1 });
@@ -13,24 +13,24 @@ router.get('/get', async (req, res) => {
   }
 });
 
-// POST /api/testimonials - add new testimonial
+// ✅ POST /api/testimonials - add new testimonial
 router.post('/post', async (req, res) => {
   try {
-    const { name, country, rating, title, review, roomType, stayDuration } = req.body;
+    const { name, country, rating, reviewTitle, review, roomType, stayDuration } = req.body;
 
     // Basic validation
-    if (!name || !rating || !review) {
-      return res.status(400).json({ message: 'name, rating and review are required' });
+    if (!name || !country || !rating || !reviewTitle || !review || !roomType || !stayDuration) {
+      return res.status(400).json({ message: 'All fields are required' });
     }
 
     const newTestimonial = new Testimonial({
       name,
       country,
       rating,
-      title,
+      reviewTitle, // 👈 updated
       review,
       roomType,
-      stayDuration
+      stayDuration,
     });
 
     const saved = await newTestimonial.save();

@@ -1,28 +1,69 @@
-import React, { useState, useEffect } from 'react';
-import {categories} from "../data/roomsData";
+import React, { useState, useEffect } from "react";
+import { categories } from "../data/roomsData";
 
 const WriteReview = () => {
-  const [name, setName] = useState('');
-  const [review, setReview] = useState('');
+  const [name, setName] = useState("");
+  const [country, setCountry] = useState("");
+  const [review, setReview] = useState("");
   const [rating, setRating] = useState(5);
+  const [reviewTitle, setReviewTitle] = useState("");
+  const [roomType, setRoomType] = useState("");
+  const [stayDuration, setStayDuration] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Submit handler
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     const newReview = {
-        name,
-        rating,
-        review,
-        date: new Date().toLocaleDateString(),
+      name,
+      country,
+      rating,
+      reviewTitle,
+      review,
+      roomType,
+      stayDuration,
+      date: new Date().toISOString(),
     };
-    console.log('Submitted review:', newReview);
-    alert('Review submitted successfully!');
-    setName('');
-    setReview('');
-    setRating(5);
+
+    try {
+      setLoading(true);
+
+      const res = await fetch("http://localhost:5000/api/testimonials/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newReview),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to submit review");
+      }
+
+      const data = await res.json();
+      console.log("Review saved:", data);
+
+      alert("✅ Review submitted successfully!");
+
+      // Clear form
+      setName("");
+      setCountry("");
+      setReview("");
+      setRating(5);
+      setReviewTitle("");
+      setRoomType("");
+      setStayDuration("");
+    } catch (err) {
+      console.error(err);
+      alert("❌ Failed to submit review. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -36,90 +77,99 @@ const WriteReview = () => {
 
           <label className="block mb-2">Name</label>
           <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        className="border p-2 mb-4 w-full"
-        placeholder="Your Name"
-        required
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="border p-2 mb-4 w-full"
+            placeholder="Your Name"
+            required
           />
 
           <label className="block mb-2">Country</label>
           <input
-        type="text"
-        className="border p-2 mb-4 w-full"
-        placeholder="Your Country"
-        required
+            type="text"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            className="border p-2 mb-4 w-full"
+            placeholder="Your Country"
+            required
           />
 
           <label className="block mb-2">Rating (1-5)</label>
           <input
-        type="number"
-        min={1}
-        max={5}
-        value={rating}
-        onChange={(e) => setRating(Number(e.target.value))}
-        className="border p-2 mb-4 w-full"
-        required
+            type="number"
+            min={1}
+            max={5}
+            value={rating}
+            onChange={(e) => setRating(Number(e.target.value))}
+            className="border p-2 mb-4 w-full"
+            required
           />
 
           <label className="block mb-2">Review Title</label>
           <input
-        type="text"
-        className="border p-2 mb-4 w-full"
-        placeholder="Review Title"
-        required
+            type="text"
+            value={reviewTitle}
+            onChange={(e) => setReviewTitle(e.target.value)}
+            className="border p-2 mb-4 w-full"
+            placeholder="Review Title"
+            required
           />
         </div>
 
         <div className="flex-1">
           <label className="block mb-2">Review</label>
           <textarea
-        value={review}
-        onChange={(e) => setReview(e.target.value)}
-        className="border p-2 mb-4 w-full"
-        rows={5}
-        placeholder="Write your review here..."
-        required
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
+            className="border p-2 mb-4 w-full"
+            rows={5}
+            placeholder="Write your review here..."
+            required
           />
 
           <label className="block mb-2">Room Type</label>
           <select
-        className="border p-2 mb-4 w-full"
-        required
+            value={roomType}
+            onChange={(e) => setRoomType(e.target.value)}
+            className="border p-2 mb-4 w-full"
+            required
           >
-        <option value="" disabled selected>
-          Select Room Type
-        </option>
-        {categories
-          .filter((category) => category.id !== "all")
-          .map((category, index) => (
-            <option key={index} value={category.name}>
-          {category.name}
+            <option value="" disabled>
+              Select Room Type
             </option>
-          ))}
+            {categories
+              .filter((category) => category.id !== "all")
+              .map((category, index) => (
+                <option key={index} value={category.name}>
+                  {category.name}
+                </option>
+              ))}
           </select>
 
           <label className="block mb-2">Stay Duration</label>
           <input
-        type="text"
-        className="border p-2 mb-4 w-full"
-        placeholder="Stay Duration (e.g., 2 nights)"
-        required
+            type="text"
+            value={stayDuration}
+            onChange={(e) => setStayDuration(e.target.value)}
+            className="border p-2 mb-4 w-full"
+            placeholder="Stay Duration (e.g., 2 nights)"
+            required
           />
 
           <button
-        type="submit"
-        className="bg-gold text-white px-4 py-2 rounded hover:bg-opacity-90 w-full"
+            type="submit"
+            disabled={loading}
+            className="bg-gold text-white px-4 py-2 rounded hover:bg-opacity-90 w-full"
           >
-        Submit Review
+            {loading ? "Submitting..." : "Submit Review"}
           </button>
         </div>
       </form>
 
       <button
-        onClick={() => window.location.href = '/testimonials'}
-        className="mt-4  text-navy px-4 py-2 rounded hover:text-opacity-80 flex items-center justify-center"
+        onClick={() => (window.location.href = "/testimonials")}
+        className="mt-4 text-navy px-4 py-2 rounded hover:text-opacity-80 flex items-center justify-center"
       >
         <span className="mr-2">←</span>
         Back to Reviews
