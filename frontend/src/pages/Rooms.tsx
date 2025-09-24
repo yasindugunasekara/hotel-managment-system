@@ -144,14 +144,14 @@ const Rooms = () => {
                   </div>
 
                   <div className="flex space-x-2">
-                    <button className="flex-1 bg-gold text-white py-2 px-4 rounded-full hover:bg-opacity-90 transition-all duration-300 font-medium text-sm"
+                    <button className="flex-1 bg-gold text-white py-2 px-4 rounded hover:bg-opacity-90 transition-all duration-300 font-medium text-sm"
                     onClick={() => {
                       window.location.href = '/book';
                   }}>
                       
                       Book Now
                     </button>
-                    <button className="px-4 py-2 border border-gold text-gold rounded-full hover:bg-gold hover:text-white transition-all duration-300 text-sm">
+                    <button className="px-4 py-2 border border-gold text-gold rounded hover:bg-gold hover:text-white transition-all duration-300 text-sm">
                       Details
                     </button>
                   </div>
