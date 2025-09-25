@@ -6,7 +6,7 @@ interface Testimonial {
   name: string;
   country?: string;
   rating: number;
-  title?: string;
+  reviewTitle?: string;
   review: string;
   roomType?: string;
   stayDuration?: string;
@@ -94,7 +94,7 @@ const Testimonials: React.FC = () => {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-6">
               {testimonials.map((t) => (
                 <div
                   key={t._id}
@@ -105,8 +105,8 @@ const Testimonials: React.FC = () => {
                     <div className="flex">{renderStars(t.rating)}</div>
                   </div>
 
-                  {t.title && (
-                    <h4 className="font-semibold text-navy mb-2">{t.title}</h4>
+                  {t.reviewTitle && (
+                    <h4 className="font-semibold text-navy mb-1 text-sm">{t.reviewTitle}</h4>
                   )}
 
                   <p className="text-gray-700 text-sm leading-relaxed mb-3">
@@ -115,12 +115,14 @@ const Testimonials: React.FC = () => {
                       : t.review}
                   </p>
 
-                  <div className="text-xs text-gray-500 space-y-1">
-                    {t.country && <p>🌍 {t.country}</p>}
-                    {t.roomType && <p>🏨 Room: {t.roomType}</p>}
-                    {t.stayDuration && <p>⏳ Stay: {t.stayDuration}</p>}
-                    <p>📅 {new Date(t.createdAt).toLocaleDateString()}</p>
-                  </div>
+                    <div className="flex text-xs text-gray-500 space-x-4">
+                      {t.country && <p>🌍 {t.country}</p>}
+                      {t.roomType && <p>🏨 Room: {t.roomType}</p>}
+                        {t.stayDuration && (
+                        <p>⏳ Stay: {t.stayDuration} {t.stayDuration === "1" ? "Night" : "Nights"}</p>
+                        )}
+                      <p>📅 {new Date(t.createdAt).toLocaleDateString()}</p>
+                    </div>
                 </div>
               ))}
             </div>
