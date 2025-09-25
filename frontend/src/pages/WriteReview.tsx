@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { categories } from "../data/roomsData";
 
 const WriteReview = () => {
@@ -10,9 +10,28 @@ const WriteReview = () => {
   const [roomType, setRoomType] = useState("");
   const [stayDuration, setStayDuration] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  // Hide suggestions when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        wrapperRef.current &&
+        !wrapperRef.current.contains(event.target as Node)
+      ) {
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   // Submit handler
@@ -66,6 +85,18 @@ const WriteReview = () => {
     }
   };
 
+  const countries = [
+    "United States", "Canada", "United Kingdom", "Australia", "India",
+    "Germany", "France", "Japan", "China", "Brazil",
+    "Mexico", "Italy", "South Korea", "Russia", "South Africa",
+    "Spain", "Netherlands", "Sweden", "Switzerland", "New Zealand",
+    "Norway", "Denmark", "Finland", "Ireland", "Singapore", "Malaysia",
+    "Thailand", "Indonesia", "Philippines", "Vietnam", "Argentina",
+    "Chile", "Colombia", "Peru", "Venezuela", "Saudi Arabia",
+    "United Arab Emirates", "Turkey", "Egypt", "Nigeria", "Kenya",
+    "Ethiopia", "Pakistan", "Bangladesh", "Sri Lanka",
+  ];
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-cream p-4">
       <form
@@ -86,14 +117,41 @@ const WriteReview = () => {
           />
 
           <label className="block mb-2">Country</label>
-          <input
-            type="text"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            className="border p-2 mb-4 w-full"
-            placeholder="Your Country"
-            required
-          />
+          <div className="relative" ref={wrapperRef}>
+            <input
+              type="text"
+              value={country}
+              onChange={(e) => {
+                setCountry(e.target.value);
+                setShowSuggestions(true);
+              }}
+              className="border p-2 mb-4 w-full rounded focus:outline-none focus:ring-2 focus:ring-gold"
+              placeholder="Your Country"
+              required
+            />
+
+            {showSuggestions && country && (
+              <div className="absolute top-full left-0 w-full bg-white border rounded shadow-lg z-10 max-h-48 overflow-y-auto">
+                {countries
+                  .filter((c) =>
+                    c.toLowerCase().includes(country.toLowerCase())
+                  )
+                  .slice(0, 50)
+                  .map((suggestion, index) => (
+                    <div
+                      key={index}
+                      className="p-2 hover:bg-gold hover:text-white cursor-pointer"
+                      onClick={() => {
+                        setCountry(suggestion);
+                        setShowSuggestions(false); // ✅ hide dropdown
+                      }}
+                    >
+                      {suggestion}
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
 
           <label className="block mb-2">Rating (1-5)</label>
           <input
@@ -147,13 +205,14 @@ const WriteReview = () => {
               ))}
           </select>
 
-          <label className="block mb-2">Stay Duration</label>
+          <label className="block mb-2">Stay Duration (in days)</label>
           <input
-            type="text"
+            type="number"
+            min={1}
             value={stayDuration}
             onChange={(e) => setStayDuration(e.target.value)}
             className="border p-2 mb-4 w-full"
-            placeholder="Stay Duration (e.g., 2 nights)"
+            placeholder="Number of days"
             required
           />
 
