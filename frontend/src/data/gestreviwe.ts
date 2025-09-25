@@ -5,7 +5,7 @@ export interface Testimonial {
   id: number;
   name: string;
   country: string;
-  flag: string;
+  
   image: string;
   rating: number;
   title: string;
@@ -20,7 +20,7 @@ export const testimonials: Testimonial[] = [
     id: 1,
     name: 'Sarah Johnson',
     country: 'New York, USA',
-    flag: '🇺🇸',
+    
     image: 'https://images.pexels.com/photos/1239291/pexels-photo-1239291.jpeg?auto=compress&cs=tinysrgb&w=150',
     rating: 5,
     title: 'Absolutely Exceptional Experience',
@@ -33,7 +33,7 @@ export const testimonials: Testimonial[] = [
     id: 2,
     name: 'Hans Mueller',
     country: 'Berlin, Germany',
-    flag: '🇩🇪',
+    
     image: 'https://images.pexels.com/photos/1681010/pexels-photo-1681010.jpeg?auto=compress&cs=tinysrgb&w=150',
     rating: 5,
     title: 'Perfect Business Trip',
@@ -46,7 +46,6 @@ export const testimonials: Testimonial[] = [
     id: 3,
     name: 'Aiko Tanaka',
     country: 'Tokyo, Japan',
-    flag: '🇯🇵',
     image: 'https://images.pexels.com/photos/1234567/pexels-photo-1234567.jpeg?auto=compress&cs=tinysrgb&w=150',
     rating: 5,
     title: 'A Tranquil Escape',
