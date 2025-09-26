@@ -2,32 +2,33 @@ const express = require('express');
 const router = express.Router();
 const Testimonial = require('../models/Testimonial');
 
-// ✅ GET /api/testimonials - fetch all testimonials
-router.get('/get', async (req, res) => {
+// GET all testimonials
+router.get('/', async (req, res) => {
   try {
     const testimonials = await Testimonial.find().sort({ createdAt: -1 });
-    res.json(testimonials);
+    // Always return an array
+    res.json(Array.isArray(testimonials) ? testimonials : []);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Server error fetching testimonials' });
+    // Return empty array on error
+    res.status(500).json([]);
   }
 });
 
-// ✅ POST /api/testimonials - add new testimonial
-router.post('/post', async (req, res) => {
+// POST a new testimonial
+router.post('/', async (req, res) => {
   try {
     const { name, country, rating, reviewTitle, review, roomType, stayDuration } = req.body;
 
-    // Basic validation
-    if (!name || !country || !rating || !reviewTitle || !review || !roomType || !stayDuration) {
-      return res.status(400).json({ message: 'All fields are required' });
+    if (!name || !country || !rating || !review || !roomType || !stayDuration) {
+      return res.status(400).json({ message: 'All required fields must be provided' });
     }
 
     const newTestimonial = new Testimonial({
       name,
       country,
       rating,
-      reviewTitle, // 👈 updated
+      reviewTitle,
       review,
       roomType,
       stayDuration,

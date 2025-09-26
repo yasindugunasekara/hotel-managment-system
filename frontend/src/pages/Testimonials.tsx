@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Star, Quote } from "lucide-react";
+import React, { useEffect, useState } from 'react';
+import { Star } from 'lucide-react';
 
 interface Testimonial {
   _id: string;
@@ -14,6 +14,7 @@ interface Testimonial {
 }
 
 const Testimonials: React.FC = () => {
+  // Initialize testimonials as an empty array to avoid undefined errors.
   const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -22,15 +23,16 @@ const Testimonials: React.FC = () => {
     const fetchTestimonials = async () => {
       try {
         setLoading(true);
-        const res = await fetch("http://localhost:5000/api/testimonials/");
-        if (!res.ok) {
-          throw new Error("Failed to fetch testimonials");
-        }
+        const res = await fetch('http://localhost:5000/api/testimonials/');
+        if (!res.ok) throw new Error('Failed to fetch testimonials');
         const data = await res.json();
-        setTestimonials(data);
+        console.log('Fetched testimonials data:', data);
+        // Defensive: ensure data is always an array
+        setTestimonials(Array.isArray(data) ? data : []);
       } catch (err) {
-        console.error(err);
-        setError("⚠️ Could not load reviews. Please try again later.");
+        console.error('Error fetching testimonials:', err);
+        setError('⚠️ Could not load reviews. Please try again later.');
+        setTestimonials([]);
       } finally {
         setLoading(false);
       }
@@ -39,20 +41,22 @@ const Testimonials: React.FC = () => {
     fetchTestimonials();
   }, []);
 
-  const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, index) => (
+  const renderStars = (rating: number) =>
+    Array.from({ length: 5 }).map((_, index) => (
       <Star
         key={index}
         className={`w-5 h-5 ${
-          index < rating ? "text-gold fill-current" : "text-gray-300"
+          index < rating ? 'text-gold fill-current' : 'text-gray-300'
         }`}
       />
     ));
-  };
+
+  if (error) {
+    return <div className="text-center text-red-600 py-10">{error}</div>;
+  }
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Section */}
       <section className="relative h-80 flex items-center justify-center text-center text-white">
         <div
@@ -78,11 +82,8 @@ const Testimonials: React.FC = () => {
         <p className="text-center text-gray-500 py-10">⏳ Loading reviews...</p>
       )}
 
-      {/* Error */}
-      {error && <p className="text-center text-red-500 py-10">{error}</p>}
-
-      {/* All Reviews Grid */}
-      {!loading && !error && testimonials.length > 0 && (
+      {/* Reviews Grid */}
+      {!loading && testimonials.length > 0 && (
         <section className="py-20 bg-cream">
           <div className="max-w-7xl mx-auto px-4">
             <div className="text-center mb-16">
@@ -106,23 +107,28 @@ const Testimonials: React.FC = () => {
                   </div>
 
                   {t.reviewTitle && (
-                    <h4 className="font-semibold text-navy mb-1 text-sm">{t.reviewTitle}</h4>
+                    <h4 className="font-semibold text-navy mb-1 text-sm">
+                      {t.reviewTitle}
+                    </h4>
                   )}
 
                   <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                    {t.review.length > 120
+                    {t.review && t.review.length > 120
                       ? `${t.review.slice(0, 120)}...`
                       : t.review}
                   </p>
 
-                    <div className="flex text-xs text-gray-500 space-x-4">
-                      {t.country && <p>🌍 {t.country}</p>}
-                      {t.roomType && <p>🏨 Room: {t.roomType}</p>}
-                        {t.stayDuration && (
-                        <p>⏳ Stay: {t.stayDuration} {t.stayDuration === "1" ? "Night" : "Nights"}</p>
-                        )}
-                      <p>📅 {new Date(t.createdAt).toLocaleDateString()}</p>
-                    </div>
+                  <div className="flex text-xs text-gray-500 space-x-4">
+                    {t.country && <p>🌍 {t.country}</p>}
+                    {t.roomType && <p>🏨 Room: {t.roomType}</p>}
+                    {t.stayDuration && (
+                      <p>
+                        ⏳ Stay: {t.stayDuration}{' '}
+                        {t.stayDuration === '1' ? 'Night' : 'Nights'}
+                      </p>
+                    )}
+                    <p>📅 {new Date(t.createdAt).toLocaleDateString()}</p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -130,14 +136,14 @@ const Testimonials: React.FC = () => {
         </section>
       )}
 
-      {/* No reviews */}
-      {!loading && !error && testimonials.length === 0 && (
+      {/* No Reviews */}
+      {!loading && testimonials.length === 0 && (
         <p className="text-center text-gray-400 py-10">
           No reviews yet. Be the first!
         </p>
       )}
 
-      {/* Review CTA */}
+      {/* CTA */}
       <section className="py-16 bg-navy/50 text-white text-center">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-3xl font-bold mb-4 font-serif">
@@ -149,13 +155,13 @@ const Testimonials: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               className="bg-gold text-white px-8 py-3 rounded hover:bg-opacity-90 transition-all duration-300 font-medium"
-              onClick={() => (window.location.href = "/write-review")}
+              onClick={() => (window.location.href = '/write-review')}
             >
               Write a Review
             </button>
             <button
               className="border-2 border-white text-white px-8 py-3 rounded hover:bg-white hover:text-navy transition-all duration-300 font-medium"
-              onClick={() => (window.location.href = "/book")}
+              onClick={() => (window.location.href = '/book')}
             >
               Book Your Stay
             </button>

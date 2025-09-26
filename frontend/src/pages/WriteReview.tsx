@@ -52,7 +52,7 @@ const WriteReview = () => {
     try {
       setLoading(true);
 
-      const res = await fetch("http://localhost:5000/api/testimonials/post", {
+      const res = await fetch("http://localhost:5000/api/testimonials/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

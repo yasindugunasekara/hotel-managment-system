@@ -6,18 +6,16 @@ const cors = require('cors');
 const testimonialsRoute = require('./routes/testimonials');
 const roomRoutes = require("./routes/roomRoutes");
 
-
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middlewares
-app.use(cors()); // allow cross-origin requests
-app.use(express.json()); // parse JSON request bodies
+app.use(cors()); // Allow cross-origin requests
+app.use(express.json()); // Parse JSON request bodies
 
 // Routes
-app.use('/api/testimonials', testimonialsRoute);
-app.use("/api/rooms", roomRoutes);
+app.use("/api/rooms", roomRoutes); // Room routes (fully RESTful)
+app.use("/api/testimonials", testimonialsRoute); // Testimonial routes (fully RESTful)
 
 // Root route
 app.get('/', (req, res) => res.send('Calm Rest Backend is running'));
