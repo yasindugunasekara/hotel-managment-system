@@ -5,7 +5,6 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import Rooms from './pages/Rooms';
 import About from './pages/About';
-import Services from './pages/Services';
 import Location from './pages/Location';
 import Testimonials from './pages/Testimonials';
 import WriteReview from './pages/WriteReview';
@@ -13,6 +12,8 @@ import Contact from './pages/Contact';
 import Profile from './pages/Profile';
 import { LanguageProvider } from './contexts/LanguageContext';
 import BookingPage from "./pages/BookingPage";
+import Login from "./pages/auth/Login";
+import Register from './pages/auth/Register';
 
 function App() {
   return (
@@ -33,6 +34,8 @@ function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/book" element={<BookingPage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
             </Routes>
           </main>
           <Footer />
