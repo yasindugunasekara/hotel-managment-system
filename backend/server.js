@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 
 const testimonialsRoute = require('./routes/testimonials');
+const roomRoutes = require("./routes/roomRoutes");
+
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -14,6 +17,7 @@ app.use(express.json()); // parse JSON request bodies
 
 // Routes
 app.use('/api/testimonials', testimonialsRoute);
+app.use("/api/rooms", roomRoutes);
 
 // Root route
 app.get('/', (req, res) => res.send('Calm Rest Backend is running'));
