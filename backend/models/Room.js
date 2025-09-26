@@ -13,7 +13,7 @@ const roomSchema = new mongoose.Schema({
   features: [
     {
       name: { type: String }, // e.g. "High-Speed WiFi"
-    //   icon: { type: String }, // store icon name as string ("Wifi", "AirVent", "Space")
+      icon: { type: String }, // store icon name as string ("Wifi", "AirVent", "Space")
     },
   ],
   description: { type: String },

@@ -22,7 +22,7 @@ const Testimonials: React.FC = () => {
     const fetchTestimonials = async () => {
       try {
         setLoading(true);
-        const res = await fetch("http://localhost:5000/api/testimonials/get");
+        const res = await fetch("http://localhost:5000/api/testimonials/");
         if (!res.ok) {
           throw new Error("Failed to fetch testimonials");
         }
