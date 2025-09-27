@@ -1,42 +1,74 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Plus, Edit, Trash2, Users, DollarSign } from 'lucide-react';
-import { mockRooms } from '@/data/mockData';
-import { Room } from '@/types';
-import { RoomModal } from '@/components/Rooms/RoomModal';
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Plus, Edit, Trash2, Users, DollarSign } from "lucide-react";
+import { Room } from "@/types";
+import { RoomModal } from "@/components/Rooms/RoomModal";
 
 export const Rooms = () => {
-  const [rooms, setRooms] = useState<Room[]>(mockRooms);
+  const [rooms, setRooms] = useState<Room[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingRoom, setEditingRoom] = useState<Room | null>(null);
 
+  // Fetch rooms on page load
+  useEffect(() => {
+    fetchRooms();
+  }, []);
+
+  const fetchRooms = async () => {
+    try {
+      const res = await fetch("http://localhost:5000/api/rooms");
+      const data = await res.json();
+      setRooms(data);
+    } catch (err) {
+      console.error("Failed to fetch rooms", err);
+    }
+  };
+
+  // Add new room
   const handleAddRoom = () => {
     setEditingRoom(null);
     setIsModalOpen(true);
   };
 
+  // Edit room
   const handleEditRoom = (room: Room) => {
     setEditingRoom(room);
     setIsModalOpen(true);
   };
 
-  const handleDeleteRoom = (id: string) => {
-    setRooms(prev => prev.filter(room => room.id !== id));
+  // Delete room
+  const handleDeleteRoom = async (id: string) => {
+    try {
+      await fetch(`http://localhost:5000/api/rooms/${id}`, {
+        method: "DELETE",
+      });
+      fetchRooms();
+    } catch (err) {
+      console.error("Failed to delete room", err);
+    }
   };
 
-  const handleSaveRoom = (roomData: Omit<Room, 'id'>) => {
-    if (editingRoom) {
-      setRooms(prev => prev.map(room => 
-        room.id === editingRoom.id 
-          ? { ...roomData, id: editingRoom.id }
-          : room
-      ));
-    } else {
-      const newRoom: Room = {
-        ...roomData,
-        id: (rooms.length + 1).toString()
-      };
-      setRooms(prev => [...prev, newRoom]);
+  // Save (add or update)
+  const handleSaveRoom = async (roomData: Omit<Room, "id">) => {
+    try {
+      if (editingRoom) {
+        // update
+        await fetch(`http://localhost:5000/api/rooms/${editingRoom._id}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(roomData),
+        });
+      } else {
+        // create
+        await fetch("http://localhost:5000/api/rooms", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(roomData),
+        });
+      }
+      fetchRooms();
+    } catch (err) {
+      console.error("Failed to save room", err);
     }
     setIsModalOpen(false);
   };
@@ -49,7 +81,9 @@ export const Rooms = () => {
     >
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Rooms</h2>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+            Rooms
+          </h2>
           <p className="text-gray-600 dark:text-gray-400 mt-1">
             Manage hotel rooms and their details
           </p>
@@ -63,10 +97,11 @@ export const Rooms = () => {
         </button>
       </div>
 
+      {/* Rooms grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {rooms.map((room, index) => (
           <motion.div
-            key={room.id}
+            key={room._id} // use MongoDB _id
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
@@ -77,24 +112,17 @@ export const Rooms = () => {
               alt={room.name}
               className="w-full h-48 object-cover"
             />
-            
+
             <div className="p-6">
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white ">
                     {room.name}
                   </h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    {room.type}
+                    {room.category}
                   </p>
                 </div>
-                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                  room.available
-                    ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
-                    : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
-                }`}>
-                  {room.available ? 'Available' : 'Occupied'}
-                </span>
               </div>
 
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
@@ -104,12 +132,14 @@ export const Rooms = () => {
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center text-gray-600 dark:text-gray-400">
                   <Users size={16} className="mr-1" />
-                  <span className="text-sm">{room.capacity} guests</span>
+                  <span className="text-sm">{room.guests} guests</span>
                 </div>
                 <div className="flex items-center text-gray-900 dark:text-white">
                   <DollarSign size={16} />
                   <span className="text-lg font-bold">{room.price}</span>
-                  <span className="text-sm text-gray-600 dark:text-gray-400">/night</span>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                    /night
+                  </span>
                 </div>
               </div>
 
@@ -122,7 +152,7 @@ export const Rooms = () => {
                   <span>Edit</span>
                 </button>
                 <button
-                  onClick={() => handleDeleteRoom(room.id)}
+                  onClick={() => handleDeleteRoom(room._id)}
                   className="flex-1 flex items-center justify-center space-x-2 px-3 py-2 text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-900 dark:text-red-300 dark:hover:bg-red-800 rounded-lg transition-colors"
                 >
                   <Trash2 size={16} />

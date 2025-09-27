@@ -1,75 +1,93 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { X } from 'lucide-react';
-import { Room } from '@/types';
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { X } from "lucide-react";
+import { Room } from "@/types";
 
 interface RoomModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (room: Omit<Room, 'id'>) => void;
+  onSave: (room: Omit<Room, "id">) => void;
   room: Room | null;
 }
 
 export const RoomModal = ({ isOpen, onClose, onSave, room }: RoomModalProps) => {
+  // Form state matches roomSchema fields
   const [formData, setFormData] = useState({
-    name: '',
-    type: '',
+    name: "",
+    category: "",
+    image: "",
     price: 0,
-    image: '',
+    rating: 0,
+    size: "",
+    guests: 1,
+    bed: "",
     amenities: [] as string[],
-    available: true,
-    capacity: 1,
-    description: ''
+    features: [] as { name: string; icon: string }[],
+    description: "",
   });
 
+  // Load room data into form if editing
   useEffect(() => {
     if (room) {
       setFormData({
         name: room.name,
-        type: room.type,
-        price: room.price,
+        category: room.category || "",
         image: room.image,
-        amenities: room.amenities,
-        available: room.available,
-        capacity: room.capacity,
-        description: room.description
+        price: room.price,
+        rating: room.rating || 0,
+        size: room.size || "",
+        guests: room.guests || 1,
+        bed: room.bed || "",
+        amenities: room.amenities || [],
+        features: room.features || [],
+        description: room.description || "",
       });
     } else {
+      // Reset to empty when adding new room
       setFormData({
-        name: '',
-        type: '',
+        name: "",
+        category: "",
+        image: "",
         price: 0,
-        image: '',
+        rating: 0,
+        size: "",
+        guests: 1,
+        bed: "",
         amenities: [],
-        available: true,
-        capacity: 1,
-        description: ''
+        features: [],
+        description: "",
       });
     }
   }, [room]);
 
+  // Submit form handler
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave(formData);
   };
 
+  // Amenities toggle handler
   const handleAmenityChange = (amenity: string, checked: boolean) => {
-    if (checked) {
-      setFormData(prev => ({
-        ...prev,
-        amenities: [...prev.amenities, amenity]
-      }));
-    } else {
-      setFormData(prev => ({
-        ...prev,
-        amenities: prev.amenities.filter(a => a !== amenity)
-      }));
-    }
+    setFormData((prev) => ({
+      ...prev,
+      amenities: checked
+        ? [...prev.amenities, amenity]
+        : prev.amenities.filter((a) => a !== amenity),
+    }));
   };
 
   if (!isOpen) return null;
 
-  const commonAmenities = ['WiFi', 'TV', 'Mini Bar', 'Ocean View', 'Balcony', 'Room Service', 'Air Conditioning'];
+  // Common amenities list
+  const commonAmenities = [
+    "WiFi",
+    
+    "Ocean View",
+    "Balcony",
+    "Room Service",
+    "Air Conditioning",
+    "Hot Water",
+  ];
 
   return (
     <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
@@ -77,154 +95,249 @@ export const RoomModal = ({ isOpen, onClose, onSave, room }: RoomModalProps) => 
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
-        className="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+        className="bg-white rounded-lg shadow-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
       >
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-            {room ? 'Edit Room' : 'Add New Room'}
+        {/* Header with title + close button */}
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+          <h3 className="text-lg font-semibold text-gray-900">
+            {room ? "Edit Room" : "Add New Room"}
           </h3>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+            className="p-2 hover:bg-red-100 rounded-lg" // Close button hover bg red
           >
-            <X size={20} className="text-gray-600 dark:text-gray-400" />
+            <X size={20} className="text-red-600" /> {/* Red close icon */}
           </button>
         </div>
 
+        {/* Form starts */}
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          {/* Grid for inputs */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Room Name */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Room Name
-              </label>
+              <label className="block text-sm font-medium mb-2">Room Name</label>
               <input
                 type="text"
                 required
                 value={formData.name}
-                onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, name: e.target.value }))
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
+            {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Room Type
-              </label>
-              <select
-                required
-                value={formData.type}
-                onChange={(e) => setFormData(prev => ({ ...prev, type: e.target.value }))}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
-              >
-                <option value="">Select type</option>
-                <option value="Standard">Standard</option>
-                <option value="Deluxe">Deluxe</option>
-                <option value="Suite">Suite</option>
-                <option value="Executive Suite">Executive Suite</option>
-              </select>
+              <label className="block text-sm font-medium mb-2">Category</label>
+              <input
+                type="text"
+                value={formData.category}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, category: e.target.value }))
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500"
+                placeholder="e.g. Air Conditioned"
+              />
             </div>
 
+            {/* Price */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium mb-2">
                 Price per night ($)
               </label>
               <input
                 type="number"
-                required
                 min="0"
+                required
                 value={formData.price}
-                onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    price: Number(e.target.value),
+                  }))
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
+            {/* Rating */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Capacity
+              <label className="block text-sm font-medium mb-2">Rating</label>
+              <input
+                type="number"
+                step="0.1"
+                min="0"
+                max="5"
+                value={formData.rating}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    rating: Number(e.target.value),
+                  }))
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Size */}
+            <div>
+              <label className="block text-sm font-medium mb-2">Size</label>
+              <input
+                type="text"
+                value={formData.size}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, size: e.target.value }))
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500"
+                placeholder="e.g. 25 sqm"
+              />
+            </div>
+
+            {/* Guests */}
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Guests Allowed
               </label>
               <input
                 type="number"
-                required
                 min="1"
-                max="10"
-                value={formData.capacity}
-                onChange={(e) => setFormData(prev => ({ ...prev, capacity: Number(e.target.value) }))}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+                max="20"
+                value={formData.guests}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    guests: Number(e.target.value),
+                  }))
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Bed */}
+            <div>
+              <label className="block text-sm font-medium mb-2">Bed Type</label>
+              <input
+                type="text"
+                value={formData.bed}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, bed: e.target.value }))
+                }
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500"
+                placeholder="e.g. King Bed"
               />
             </div>
           </div>
 
+          {/* Image URL */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Image URL
-            </label>
+            <label className="block text-sm font-medium mb-2">Image URL</label>
             <input
-              type="url"
+              type="text"
               required
               value={formData.image}
-              onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, image: e.target.value }))
+              }
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
+          {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Description
-            </label>
+            <label className="block text-sm font-medium mb-2">Description</label>
             <textarea
-              required
               rows={3}
+              required
               value={formData.description}
-              onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  description: e.target.value,
+                }))
+              }
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
+          {/* Amenities */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-              Amenities
-            </label>
+            <label className="block text-sm font-medium mb-3">Amenities</label>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
               {commonAmenities.map((amenity) => (
                 <label key={amenity} className="flex items-center space-x-2">
                   <input
                     type="checkbox"
                     checked={formData.amenities.includes(amenity)}
-                    onChange={(e) => handleAmenityChange(amenity, e.target.checked)}
+                    onChange={(e) =>
+                      handleAmenityChange(amenity, e.target.checked)
+                    }
                     className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
-                  <span className="text-sm text-gray-700 dark:text-gray-300">{amenity}</span>
+                  <span className="text-sm">{amenity}</span>
                 </label>
               ))}
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              id="available"
-              checked={formData.available}
-              onChange={(e) => setFormData(prev => ({ ...prev, available: e.target.checked }))}
-              className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-            />
-            <label htmlFor="available" className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Room is available for booking
-            </label>
+          {/* Features (dynamic fields) */}
+          <div>
+            <label className="block text-sm font-medium mb-3">Features</label>
+            {formData.features.map((feature, idx) => (
+              <div key={idx} className="flex gap-2 mb-2">
+                <input
+                  type="text"
+                  value={feature.name}
+                  placeholder="Feature Name"
+                  onChange={(e) => {
+                    const updated = [...formData.features];
+                    updated[idx].name = e.target.value;
+                    setFormData((prev) => ({ ...prev, features: updated }));
+                  }}
+                  className="w-1/2 px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500"
+                />
+                {/* <input
+                  type="text"
+                  value={feature.icon}
+                  placeholder="Icon name"
+                  onChange={(e) => {
+                    const updated = [...formData.features];
+                    updated[idx].icon = e.target.value;
+                    setFormData((prev) => ({ ...prev, features: updated }));
+                  }}
+                  className="w-1/2 px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-900 focus:ring-2 focus:ring-blue-500"
+                /> */}
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={() =>
+                setFormData((prev) => ({
+                  ...prev,
+                  features: [...prev.features, { name: "", icon: "" }],
+                }))
+              }
+              className="text-white bg-blue-600 text-sm mt-2"
+            >
+              + Add Feature
+            </button>
           </div>
 
-          <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+          {/* Buttons */}
+          <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200"
+              className="px-4 py-2 text-white bg-gray-500 rounded-lg hover:bg-gray-600"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
             >
-              {room ? 'Update Room' : 'Add Room'}
+              {room ? "Update Room" : "Add Room"}
             </button>
           </div>
         </form>
