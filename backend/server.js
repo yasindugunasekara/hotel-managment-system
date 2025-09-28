@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const testimonialsRoute = require('./routes/testimonials');
 const roomRoutes = require("./routes/roomRoutes");
+const bookingRoutes = require("./routes/bookingRoutes")
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -16,6 +17,7 @@ app.use(express.json()); // Parse JSON request bodies
 // Routes
 app.use("/api/rooms", roomRoutes); // Room routes (fully RESTful)
 app.use("/api/testimonials", testimonialsRoute); // Testimonial routes (fully RESTful)
+app.use("/api/bookings", bookingRoutes); // Booking routes (create only)
 
 // Root route
 app.get('/', (req, res) => res.send('Calm Rest Backend is running'));
