@@ -10,6 +10,7 @@ interface BookingFormProps {
 const BookingForm: React.FC<BookingFormProps> = ({ className = "" }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState("2");
@@ -27,6 +28,7 @@ Check-in: ${checkIn}
 Check-out: ${checkOut}
 Guests: ${guests}
 Room Type: ${roomType}
+Email: ${email}
 
 Special Request: ${specialRequest || "None"}
 
@@ -41,7 +43,7 @@ Please let me know about availability and pricing. Thank you!`;
   return (
    <form
   onSubmit={handleBookingSubmit}
-  className={`bg-white p-8 rounded shadow-xl ${className} max-w-4xl mx-auto`}
+  className={`bg-white p-8 rounded shadow-xl ${className} max-w-5xl mx-auto`}
 >
   <h3 className="text-2xl font-semibold mb-8 text-navy font-serif text-center">
     Book Your Stay
@@ -79,6 +81,20 @@ Please let me know about availability and pricing. Thank you!`;
           className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
           required
         />
+        {/* Email */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            <MessageCircle size={16} className="inline mr-2" />
+            Email Address
+          </label>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
+            required
+          />
+        </div>
       </div>
 
       {/* Check-in */}
