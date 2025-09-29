@@ -22,11 +22,12 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Get all bookings
+
 router.get("/", async (req, res) => {
   try {
-    const bookings = await Booking.find(); // returns an array
-    res.json(bookings); // send array directly
+    const bookings = await Booking.find().lean(); // lean() gives plain JS objects
+    const uniqueBookings = Array.from(new Map(bookings.map(b => [b._id.toString(), b])).values());
+    res.json(uniqueBookings);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
