@@ -6,6 +6,7 @@ const cors = require("cors");
 const roomRoutes = require("./routes/roomRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const testimonialsRoute = require("./routes/testimonials");
+const messageRoutes = require("./routes/messageRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use("/api/rooms", roomRoutes);
 app.use("/api/bookings", bookingRoutes);
 app.use("/api/testimonials", testimonialsRoute);
+app.use("/api/messages", messageRoutes);
 
 // Root route
 app.get("/", (req, res) => res.send("Calm Rest Backend is running"));
