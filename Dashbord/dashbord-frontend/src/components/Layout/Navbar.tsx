@@ -46,7 +46,7 @@ export const Navbar = () => {
         {/* Dark Mode Toggle */}
         <button
           onClick={toggleDarkMode}
-          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+          className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 bg-gray-100 dark:bg-gray-800  transition-colors bg-transparent"
         >
           {isDarkMode ? (
             <Sun size={20} className="text-gray-600 dark:text-gray-400" />
@@ -59,7 +59,7 @@ export const Navbar = () => {
         <div className="relative">
           <button
             onClick={() => setIsNotificationOpen(!isNotificationOpen)}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors relative"
+            className="p-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-lg transition-colors relative bg-transparent"
           >
             <Bell size={20} className="text-gray-600 dark:text-gray-400" />
             <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
@@ -91,10 +91,13 @@ export const Navbar = () => {
 
         {/* Profile Dropdown */}
         <div className="relative">
-          <button
-            onClick={() => setIsProfileOpen(!isProfileOpen)}
-            className="flex items-center space-x-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
-          >
+            <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsProfileOpen(!isProfileOpen);
+            }}
+            className="flex items-center space-x-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors bg-gray-100 dark:bg-gray-800"
+            >
             <img
               src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg"
               alt="Profile"
@@ -104,7 +107,13 @@ export const Navbar = () => {
               Admin User
             </span>
             <ChevronDown size={16} className="text-gray-600 dark:text-gray-400" />
-          </button>
+            </button>
+            {isProfileOpen && (
+            <div
+              onClick={() => setIsProfileOpen(false)}
+              className="fixed inset-0 z-40"
+            ></div>
+            )}
 
           {isProfileOpen && (
             <motion.div
@@ -113,16 +122,16 @@ export const Navbar = () => {
               className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50"
             >
               <div className="p-2">
-                <button className="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                <button className="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg bg-transparent">
                   <User size={16} />
                   <span>Profile</span>
                 </button>
-                <button className="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+                <button className="flex items-center space-x-3 w-full px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg bg-transparent">
                   <Settings size={16} />
                   <span>Change Password</span>
                 </button>
                 <hr className="my-2 border-gray-200 dark:border-gray-700" />
-                <button className="flex items-center space-x-3 w-full px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg">
+                <button className="flex items-center space-x-3 w-full px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg bg-transparent">
                   <LogOut size={16} />
                   <span>Logout</span>
                 </button>
