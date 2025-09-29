@@ -183,24 +183,7 @@ const Contact = () => {
                     />
                   </div>
                   
-                  <div>
-                    <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                      Department *
-                    </label>
-                    <select
-                      id="subject"
-                      name="subject"
-                      value={formData.subject}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gold focus:border-transparent"
-                    >
-                      <option value="">Select Department</option>
-                      {departments.map((dept) => (
-                        <option key={dept} value={dept}>{dept}</option>
-                      ))}
-                    </select>
-                  </div>
+                  
                 </div>
                 
                 <div>
@@ -246,7 +229,7 @@ const Contact = () => {
                   <p className="text-sm">Google Maps integration would go here</p>
                     <button
                     className="mt-4 bg-gold text-white px-6 py-2 rounded hover:bg-opacity-90 transition-colors"
-                    onClick={() => window.open('https://www.google.com/maps/place/Calm+Rest/@5.9624924,80.3948997,17z/data=!4m9!3m8!1s0x3ae114e826db1595:0x7689ea709c4b1cf2!5m2!4m1!1i2!8m2!3d5.9624924!4d80.3974746!16s%2Fg%2F11cn2zv5kz?entry=ttu', '_blank')}
+                    onClick={() => window.open('https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d496.0292274582211!2d80.39707651531208!3d5.962495420434016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae114e826db1595%3A0x7689ea709c4b1cf2!2sCalm%20Rest!5e0!3m2!1sen!2slk!4v1759170511114!5m2!1sen!2slk" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade')}
                     >
                     Open in Google Maps
                     </button>
