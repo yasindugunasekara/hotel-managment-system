@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-interface Category {
+interface Room {
   _id: string;
   name: string;
+  price: number;
 }
 
 const BookingForm: React.FC = () => {
@@ -14,22 +15,48 @@ const BookingForm: React.FC = () => {
   const [guests, setGuests] = useState(2);
   const [roomType, setRoomType] = useState("");
   const [specialRequest, setSpecialRequest] = useState("");
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [rooms, setRooms] = useState<Room[]>([]);
+  const [pricePerNight, setPricePerNight] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  // Fetch room categories from API
+  // Fetch room categories + prices
   useEffect(() => {
-    const fetchCategories = async () => {
+    const fetchRooms = async () => {
       try {
         const res = await fetch("http://localhost:5000/api/rooms");
-        const data: Category[] = await res.json();
-        setCategories(data);
-        if (data.length > 0) setRoomType(data[0].name);
+        const data: Room[] = await res.json();
+        setRooms(data);
+
+        if (data.length > 0) {
+          setRoomType(data[0].name);
+          setPricePerNight(data[0].price);
+        }
       } catch (err) {
-        console.error("Error fetching categories:", err);
+        console.error("Error fetching rooms:", err);
       }
     };
-    fetchCategories();
+    fetchRooms();
   }, []);
+
+  // Update pricePerNight when roomType changes
+  useEffect(() => {
+    const selectedRoom = rooms.find((room) => room.name === roomType);
+    setPricePerNight(selectedRoom ? selectedRoom.price : 0);
+  }, [roomType, rooms]);
+
+  // Calculate total price when dates or pricePerNight change
+  useEffect(() => {
+    if (checkIn && checkOut && pricePerNight > 0) {
+      const checkInDate = new Date(checkIn);
+      const checkOutDate = new Date(checkOut);
+      const diffTime = checkOutDate.getTime() - checkInDate.getTime();
+      const nights = diffTime / (1000 * 60 * 60 * 24);
+
+      setTotalPrice(nights > 0 ? nights * pricePerNight : 0);
+    } else {
+      setTotalPrice(0);
+    }
+  }, [checkIn, checkOut, pricePerNight]);
 
   // Submit booking form
   const handleBookingSubmit = async (e: React.FormEvent) => {
@@ -44,6 +71,7 @@ const BookingForm: React.FC = () => {
       guests,
       roomType,
       specialRequest,
+      totalPrice, // store calculated price
     };
 
     try {
@@ -62,8 +90,9 @@ const BookingForm: React.FC = () => {
         setCheckIn("");
         setCheckOut("");
         setGuests(2);
-        setRoomType(categories[0]?.name || "");
+        setRoomType(rooms[0]?.name || "");
         setSpecialRequest("");
+        setTotalPrice(0);
       } else {
         alert("Failed to submit booking: " + data.error);
       }
@@ -116,7 +145,7 @@ const BookingForm: React.FC = () => {
             />
           </div>
 
-          <div>
+            <div>
             <label className="block mb-2">Check-in</label>
             <input
               type="date"
@@ -124,19 +153,28 @@ const BookingForm: React.FC = () => {
               onChange={(e) => setCheckIn(e.target.value)}
               required
               className="w-full border px-4 py-2 rounded"
+              min={new Date().toISOString().split("T")[0]} // Prevent selecting past dates
             />
-          </div>
+            </div>
 
-          <div>
+            <div>
             <label className="block mb-2">Check-out</label>
             <input
               type="date"
               value={checkOut}
-              onChange={(e) => setCheckOut(e.target.value)}
+              onChange={(e) => {
+              const selectedDate = e.target.value;
+              if (checkIn && new Date(selectedDate) <= new Date(checkIn)) {
+                alert("Check-out date must be after the check-in date.");
+              } else {
+                setCheckOut(selectedDate);
+              }
+              }}
               required
               className="w-full border px-4 py-2 rounded"
+              min={checkIn || ""}
             />
-          </div>
+            </div>
         </div>
 
         {/* Right Column */}
@@ -149,9 +187,9 @@ const BookingForm: React.FC = () => {
               required
               className="w-full border px-4 py-2 rounded"
             >
-              {categories.map((cat) => (
-                <option key={cat._id} value={cat.name}>
-                  {cat.name}
+              {rooms.map((room) => (
+                <option key={room._id} value={room.name}>
+                  {room.name}
                 </option>
               ))}
             </select>
@@ -182,10 +220,38 @@ const BookingForm: React.FC = () => {
               placeholder="e.g. Late check-in, extra bed..."
             />
           </div>
+
+          {/* Price Display */}
+          
         </div>
       </div>
 
       <div className="mt-8">
+        <div className="p-4 bg-gray-100 rounded border">
+
+            <h4 className="text-lg font-semibold mb-4">Booking Summary</h4>
+            
+            <div className="bg-blue-50 p-4 rounded shadow-md">
+            <p className="text-gray-800 text-lg">
+              <strong>Room Type:</strong> <span className="text-blue-600">{roomType}</span>
+            </p>
+            <p className="text-gray-800 text-lg mt-2">
+              <strong>Check-in:</strong> <span className="text-blue-600">{checkIn}</span>
+              <br />
+              <strong>Check-out:</strong> <span className="text-blue-600">{checkOut}</span>
+            </p>
+            <p className="text-gray-800 text-lg mt-2">
+              <strong>Price per night:</strong> <span className="text-green-600">${pricePerNight || 0}</span>
+            </p>
+            <p className="text-gray-800 text-lg mt-2">
+              <strong>Total Price:</strong>{" "}
+              <span className={`font-bold ${totalPrice > 0 ? "text-green-600" : "text-red-600"}`}>
+              {totalPrice > 0 ? `$${totalPrice}` : "Not available"}
+              </span>
+            </p>
+            </div>
+          </div>
+          <br />
         <button
           type="submit"
           className="w-full bg-blue-600 text-white py-3 px-6 rounded hover:bg-blue-700 transition"
