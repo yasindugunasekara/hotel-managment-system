@@ -13,6 +13,7 @@ import { useSidebar } from '@/hooks/useSidebar';
 const navigationItems = [
   { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
   { icon: Calendar, label: 'Bookings', path: '/bookings' },
+  { icon: Calendar, label: 'Messages', path: '/messages' },
   { icon: Home, label: 'Rooms', path: '/rooms' },
   { icon: Users, label: 'Users', path: '/users' },
   { icon: Settings, label: 'Settings', path: '/settings' }
@@ -36,7 +37,7 @@ export const Sidebar = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
-          onClick={closeSidebar}
+          onClick={() => console.log('close')}
         />
       )}
 
@@ -46,9 +47,9 @@ export const Sidebar = () => {
         animate={isMobile ? (isOpen ? 'open' : 'closed') : 'open'}
         variants={sidebarVariants}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 z-50 md:relative md:z-0"
+        className="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 z-50 md:relative md:z-0"
       >
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-800">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">
             Hotel Admin
           </h2>
@@ -62,8 +63,8 @@ export const Sidebar = () => {
           )}
         </div>
 
-        <nav className="p-4">
-          <ul className="space-y-2">
+        <nav className="">
+          <ul className="space-y-3">
             {navigationItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
