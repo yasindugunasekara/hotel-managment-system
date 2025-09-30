@@ -12,12 +12,22 @@ import {
 } from 'lucide-react';
 import { useDarkMode } from '@/hooks/useDarkMode';
 import { useSidebar } from '@/hooks/useSidebar';
+import { Link } from 'react-router-dom'; // Assuming you are using react-router-dom
 
 export const Navbar = () => {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
   const { toggleSidebar, isMobile } = useSidebar();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
+  const navLinks = [
+    { name: 'Dashboard', path: '/' },
+    { name: 'Bookings', path: '/bookings' },
+    { name: 'Messages', path: '/messages' },
+    { name: 'Rooms', path: '/rooms' },
+    { name: 'Users', path: '/users' },
+    { name: 'Settings', path: '/settings' }
+  ];
 
   const notifications = [
     { id: 1, message: 'New booking from John Smith', time: '5 min ago' },
@@ -26,7 +36,7 @@ export const Navbar = () => {
   ];
 
   return (
-    <nav className="h-16 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 px-6 flex items-center justify-between">
+    <nav className="fixed top-0 left-0 right-0 h-20 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 px-6 flex items-center justify-between z-50">
       <div className="flex items-center space-x-4">
         {isMobile && (
           <button
@@ -37,10 +47,24 @@ export const Navbar = () => {
           </button>
         )}
         
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-          Dashboard
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white p-9">
+          Calm Rest
         </h1>
       </div>
+
+      {!isMobile && (
+        <div className="flex items-center space-x-6">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
+              className="text-sm font-medium text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors"
+            >
+              {link.name}
+            </Link>
+          ))}
+        </div>
+      )}
 
       <div className="flex items-center space-x-4">
         {/* Dark Mode Toggle */}

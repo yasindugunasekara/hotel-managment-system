@@ -31,39 +31,39 @@ export const Sidebar = () => {
   return (
     <>
       {/* Mobile Overlay */}
-      {isMobile && isOpen && (
+      {isOpen && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 bg-black/50 z-40 md:hidden"
-          onClick={() => console.log('close')}
+          onClick={closeSidebar}
         />
       )}
 
       {/* Sidebar */}
       <motion.aside
-        initial={isMobile ? 'closed' : 'open'}
-        animate={isMobile ? (isOpen ? 'open' : 'closed') : 'open'}
+        initial="closed"
+        animate={isOpen ? 'open' : 'closed'}
         variants={sidebarVariants}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
-        className="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 z-50 md:relative md:z-0"
+        className="fixed left-0 top-0 h-screen w-64 bg-white dark:bg-gray-900  border-gray-200 dark:border-gray-700 z-50 overflow-y-auto"
       >
-        <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-            Hotel Admin
-          </h2>
-          {isMobile && (
+        <div className="sticky top-0 bg-white dark:bg-gray-900 z-10">
+          <div className="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              Hotel Admin
+            </h2>
             <button
               onClick={closeSidebar}
               className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg"
             >
               <X size={20} className="text-gray-600 dark:text-gray-400" />
             </button>
-          )}
+          </div>
         </div>
 
-        <nav className="">
+        <nav className="p-4">
           <ul className="space-y-3">
             {navigationItems.map((item) => {
               const Icon = item.icon;
@@ -73,8 +73,8 @@ export const Sidebar = () => {
                 <li key={item.path}>
                   <Link
                     to={item.path}
-                    onClick={isMobile ? closeSidebar : undefined}
-                    className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+                    onClick={closeSidebar}
+                    className={`flex items-center space-x-4 px-6 py-2 rounded transition-colors ${
                       isActive
                         ? 'bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300'
                         : 'text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800'
