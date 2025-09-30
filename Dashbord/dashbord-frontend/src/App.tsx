@@ -6,7 +6,8 @@ import { Rooms } from './pages/Rooms';
 import { Users } from './pages/Users';
 import { Settings } from './pages/Settings';
 import './App.css';
-import { MessagesPage } from "./pages/MessagesPage";
+import { MessagesPage } from './pages/MessagesPage';
+
 
 function App() {
   return (
