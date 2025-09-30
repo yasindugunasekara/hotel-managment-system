@@ -22,9 +22,11 @@ interface Room {
 export const Bookings = () => {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [rooms, setRooms] = useState<Room[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState("30"); // default "Last 30 days"
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
-    // fetch bookings
     const fetchBookings = async () => {
       try {
         const res = await fetch("http://localhost:5000/api/bookings");
@@ -36,7 +38,6 @@ export const Bookings = () => {
       }
     };
 
-    // fetch rooms (contains price)
     const fetchRooms = async () => {
       try {
         const res = await fetch("http://localhost:5000/api/rooms");
@@ -52,35 +53,25 @@ export const Bookings = () => {
     fetchRooms();
   }, []);
 
-  // Normalize strings for matching: remove extra whitespace/newlines and lowercase
   const normalize = (s?: string) =>
     (s || "")
       .replace(/\s+/g, " ")
       .trim()
       .toLowerCase();
 
-  // Robust parse: try Date(), if invalid fall back to manual parse (YYYY-MM-DD or YYYY/MM/DD)
   const parseDateSafe = (dateStr: string): Date => {
     const d = new Date(dateStr);
     if (!isNaN(d.getTime())) return d;
-
-    // try manual extraction
     const m = dateStr.match(/(\d{4})\D(\d{1,2})\D(\d{1,2})/);
     if (m) {
-      const y = Number(m[1]);
-      const mo = Number(m[2]) - 1;
-      const day = Number(m[3]);
-      return new Date(y, mo, day);
+      return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
     }
-
-    // fallback -> Invalid Date
     return new Date(NaN);
   };
 
-  // Return UTC milliseconds for the date's Y/M/D (strip time-of-day) to avoid timezone shifts
-  const utcDayMillis = (d: Date) => Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
+  const utcDayMillis = (d: Date) =>
+    Date.UTC(d.getFullYear(), d.getMonth(), d.getDate());
 
-  // Count nights as difference in whole days (UTC)
   const nightsBetween = (checkInStr: string, checkOutStr: string): number => {
     const inD = parseDateSafe(checkInStr);
     const outD = parseDateSafe(checkOutStr);
@@ -88,120 +79,194 @@ export const Bookings = () => {
 
     const msPerDay = 1000 * 60 * 60 * 24;
     const diff = utcDayMillis(outD) - utcDayMillis(inD);
-    const nights = diff / msPerDay;
-    return nights > 0 ? Math.round(nights) : 0; // nights should be integer >= 0
+    return diff > 0 ? diff / msPerDay : 0;
   };
 
-  // Find room by matching names more flexibly:
-  // 1) exact normalized match
-  // 2) room name includes booking name or booking name words contained in room name
   const findRoomByType = (roomType: string): Room | undefined => {
     const target = normalize(roomType);
     if (!target) return undefined;
 
-    // 1) exact normalized match
     let room = rooms.find((r) => normalize(r.name) === target);
     if (room) return room;
 
-    // 2) direct containment (e.g. "sea view deluxe room" contains "deluxe room")
-    room = rooms.find((r) => normalize(r.name).includes(target) || target.includes(normalize(r.name)));
+    room = rooms.find(
+      (r) =>
+        normalize(r.name).includes(target) || target.includes(normalize(r.name))
+    );
     if (room) return room;
 
-    // 3) match by words: require all words in booking.roomType exist in room.name (order-insensitive)
     const words = target.split(" ").filter(Boolean);
-    room = rooms.find((r) => {
+    return rooms.find((r) => {
       const rn = normalize(r.name);
       return words.every((w) => rn.includes(w));
     });
-    return room;
   };
 
-  // Format currency nicely
   const formatCurrency = (value: number) =>
-    new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 2 }).format(value);
+    new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 2,
+    }).format(value);
+
+  // ✅ Filter bookings by search + date range
+  const filteredBookings = bookings.filter((b) => {
+    const term = normalize(searchTerm);
+    const inDate = parseDateSafe(b.checkIn);
+
+    let withinRange = true;
+    if (filter !== "all") {
+      const now = new Date();
+      const days = Number(filter);
+      const pastDate = new Date();
+      pastDate.setDate(now.getDate() - days);
+      withinRange = inDate >= pastDate;
+    }
+
+    return (
+      withinRange &&
+      (normalize(b.firstName + " " + b.lastName).includes(term) ||
+        normalize(b.email).includes(term) ||
+        normalize(b.roomType).includes(term))
+    );
+  });
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="pl-20 pt-5 "
-    >
-      <div className="p-6 bg-white dark:bg-gray-800 rounded" style={{ position: "absolute", left: 2, top: 70 }}>
-      <table className=" bg-blue-50 dark:bg-gray-800 rounded shadow-md border border-gray-200 dark:border-gray-700 pl-22 pt-6">
-        <thead className="bg-gray-50 dark:bg-gray-900">
-        <tr>
-          <th className="py-3 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Guest Name</th>
-          <th className="py-3 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Email</th>
-          <th className="py-3 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Room Type</th>
-          <th className="py-3 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Check-in</th>
-          <th className="py-3 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Check-out</th>
-          <th className="py-3 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Guests</th>
-          <th className="py-3 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Price / Night</th>
-          <th className="py-3 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Total Price</th>
-          <th className="py-3 px-4 text-left text-sm font-semibold text-gray-700 dark:text-gray-300">Special Requests</th>
-        </tr>
+    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-6 ">
+      {/* Filter + Search */}
+      <div className="flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
+        {/* Dropdown */}
+        <div className="relative">
+          <button
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+            className="inline-flex items-center text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-3 py-1.5 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700"
+          >
+            Filter: Last {filter} days
+            <svg
+              className="w-2.5 h-2.5 ml-2.5"
+              fill="none"
+              viewBox="0 0 10 6"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="m1 1 4 4 4-4"
+              />
+            </svg>
+          </button>
+
+          {dropdownOpen && (
+            <div className="absolute z-10 mt-2 w-40 bg-white rounded-lg shadow dark:bg-gray-700">
+              <ul className="p-2 space-y-1 text-sm text-gray-700 dark:text-gray-200">
+                {["1", "7", "30", "90", "365", "all"].map((val) => (
+                  <li key={val}>
+                    <button
+                      onClick={() => {
+                        setFilter(val);
+                        setDropdownOpen(false);
+                      }}
+                      className="w-full text-left px-3 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+                    >
+                      {val === "all" ? "All time" : `Last ${val} days`}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+
+        {/* Search */}
+        <div className="relative">
+          <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg
+              className="w-5 h-5 text-gray-500 dark:text-gray-400"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M8 4a4 4 0 100 8A4 4 0 008 4zM2 8a6 6 0 1110.89 3.48l4.82 4.82a1 1 0 01-1.42 1.42l-4.82-4.82A6 6 0 012 8z"
+              />
+            </svg>
+          </div>
+          <input
+            type="text"
+            placeholder="Search bookings..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="block w-80 p-2 pl-10 text-sm border border-gray-300 rounded-lg bg-gray-50 dark:bg-gray-700 dark:text-white focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+      </div>
+
+      {/* Table */}
+      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th className="px-6 py-3">Guest Name</th>
+            <th className="px-6 py-3">Email</th>
+            <th className="px-6 py-3">Room Type</th>
+            <th className="px-6 py-3">Check-in</th>
+            <th className="px-6 py-3">Check-out</th>
+            <th className="px-6 py-3">Guests</th>
+            <th className="px-6 py-3">Price/Night</th>
+            <th className="px-6 py-3">Total Price</th>
+            <th className="px-6 py-3">Special Request</th>
+          </tr>
         </thead>
         <tbody>
-        {bookings.length > 0 ? (
-          bookings.map((booking, idx) => {
-          const checkInDate = parseDateSafe(booking.checkIn);
-          const checkOutDate = parseDateSafe(booking.checkOut);
+          {filteredBookings.length > 0 ? (
+            filteredBookings.map((b, idx) => {
+              const checkIn = parseDateSafe(b.checkIn);
+              const checkOut = parseDateSafe(b.checkOut);
+              const nights = nightsBetween(b.checkIn, b.checkOut);
+              const room = findRoomByType(b.roomType);
+              const pricePerNight = room?.price ?? 0;
+              const total = nights * pricePerNight;
 
-          // number of nights (integer)
-          const nights = nightsBetween(booking.checkIn, booking.checkOut);
-
-          // find matching room object
-          const room = findRoomByType(booking.roomType);
-
-          // compute total price: nights * room.price
-          const pricePerNight = room?.price ?? 0;
-          const totalPrice = nights > 0 && pricePerNight > 0 ? nights * pricePerNight : 0;
-
-          // For debugging (uncomment if needed)
-          // console.log("Booking:", booking.roomType, "normalized:", normalize(booking.roomType));
-          // console.log("Matched room:", room);
-          // console.log("checkIn/out:", checkInDate, checkOutDate, "nights:", nights, "price/night:", pricePerNight, "total:", totalPrice);
-
-          const displayCheckIn =
-            !isNaN(checkInDate.getTime()) ? `${checkInDate.getFullYear()}/${String(checkInDate.getMonth() + 1).padStart(2, "0")}/${String(checkInDate.getDate()).padStart(2, "0")}` : "-";
-          const displayCheckOut =
-            !isNaN(checkOutDate.getTime()) ? `${checkOutDate.getFullYear()}/${String(checkOutDate.getMonth() + 1).padStart(2, "0")}/${String(checkOutDate.getDate()).padStart(2, "0")}` : "-";
-
-          return (
-            <motion.tr
-            key={booking._id || idx}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: idx * 0.05 }}
-            className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
-            >
-            <td className="py-2 px-4 font-medium text-gray-900 dark:text-white">
-              {booking.firstName} {booking.lastName}
-            </td>
-            <td className="py-2 px-4 text-sm text-gray-600 dark:text-gray-400">{booking.email}</td>
-            <td className="py-2 px-4 text-gray-900 dark:text-white">{booking.roomType}</td>
-            <td className="py-2 px-4 text-gray-900 dark:text-white">{displayCheckIn}</td>
-            <td className="py-2 px-4 text-gray-900 dark:text-white">{displayCheckOut}</td>
-            <td className="py-2 px-4 text-gray-900 dark:text-white">{booking.guests}</td>
-            <td className="py-2 px-4 text-gray-900 dark:text-white">
-              {pricePerNight > 0 ? formatCurrency(pricePerNight) : "-"}
-            </td>
-            <td className="py-2 px-4 text-gray-900 dark:text-white">{totalPrice > 0 ? formatCurrency(totalPrice) : "-"}</td>
-            <td className="py-2 px-4 text-gray-900 dark:text-white">{booking.specialRequest || "-"}</td>
-            </motion.tr>
-          );
-          })
-        ) : (
-          <tr>
-          <td colSpan={9} className="py-4 text-center text-gray-500 dark:text-gray-400">
-            No bookings found.
-          </td>
-          </tr>
-        )}
+              return (
+                <motion.tr
+                  key={b._id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: idx * 0.05 }}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                >
+                  <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                    {b.firstName} {b.lastName}
+                  </td>
+                  <td className="px-6 py-4">{b.email}</td>
+                  <td className="px-6 py-4">{b.roomType}</td>
+                  <td className="px-6 py-4">{checkIn.toDateString()}</td>
+                  <td className="px-6 py-4">{checkOut.toDateString()}</td>
+                  <td className="px-6 py-4">{b.guests}</td>
+                  <td className="px-6 py-4">
+                    {pricePerNight ? formatCurrency(pricePerNight) : "-"}
+                  </td>
+                  <td className="px-6 py-4">
+                    {total > 0 ? formatCurrency(total) : "-"}
+                  </td>
+                  <td className="px-6 py-4">{b.specialRequest || "-"}</td>
+                </motion.tr>
+              );
+            })
+          ) : (
+            <tr>
+              <td
+                colSpan={9}
+                className="px-6 py-4 text-center text-gray-500 dark:text-gray-400"
+              >
+                No bookings found
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
-      </div>
-    </motion.div>
+    </div>
   );
 };
