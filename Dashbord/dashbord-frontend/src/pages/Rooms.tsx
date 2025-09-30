@@ -79,9 +79,9 @@ export const Rooms = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="flex justify-between items-center mb-6 pt-6">
+      <div className=" justify-between items-center mb-6 pt-6">
         <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
             Rooms
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mt-1">

@@ -36,7 +36,7 @@ export const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 h-20 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 px-6 flex items-center justify-between z-50">
+    <nav className="fixed top-0 left-0 right-0 h-20 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-800 px-6 flex items-center justify-between z-50 bgransition-shadow shadow-sm">
       <div className="flex items-center space-x-4">
         {isMobile && (
           <button
