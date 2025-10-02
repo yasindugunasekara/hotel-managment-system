@@ -26,8 +26,14 @@ const Login = () => {
         // Then you can use it to redirect:
         // navigate("/bookingForm");
         // For now, we'll just log to the console as a placeholder for navigation.
-        console.log("Redirecting to booking form...");
-        window.location.href = "/book"; // Or use react-router's navigate
+        // Add a class to the body for a fade-out effect
+        document.body.classList.add("fade-out");
+
+        // Wait for the animation to complete before redirecting
+        setTimeout(() => {
+          console.log("Redirecting to booking form...");
+          window.location.href = "/book"; // Or use react-router's navigate
+        }, 500); // This duration should match the CSS animation duration
         
       } else {
         alert("❌ " + data.error);
