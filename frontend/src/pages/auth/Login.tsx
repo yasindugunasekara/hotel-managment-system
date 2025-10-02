@@ -20,7 +20,15 @@ const Login = () => {
 
       if (res.ok) {
         alert("✅ Login Successful!");
-        console.log("Logged in user:", data.user);
+        // You need to import useNavigate from react-router-dom and initialize it:
+        // import { useNavigate } from "react-router-dom";
+        // const navigate = useNavigate();
+        // Then you can use it to redirect:
+        // navigate("/bookingForm");
+        // For now, we'll just log to the console as a placeholder for navigation.
+        console.log("Redirecting to booking form...");
+        window.location.href = "/book"; // Or use react-router's navigate
+        
       } else {
         alert("❌ " + data.error);
       }
