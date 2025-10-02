@@ -132,7 +132,7 @@ export const Bookings = () => {
   });
 
   return (
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-6 ">
+    <div className="relative overflow-x-auto sm: mt-6 ">
       {/* Filter + Search */}
       <div className="flex flex-col sm:flex-row flex-wrap space-y-4 sm:space-y-0 items-center justify-between pb-4">
         {/* Dropdown */}

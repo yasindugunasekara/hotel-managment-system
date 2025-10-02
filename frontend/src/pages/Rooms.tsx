@@ -161,7 +161,7 @@ const Rooms = () => {
                   <button
                     className="flex-1 bg-gold text-white py-2 px-4 rounded hover:bg-opacity-90 transition-all duration-300 font-medium text-sm"
                     onClick={() => {
-                      window.location.href = "/book";
+                      window.location.href = "/login";
                     }}
                   >
                     Book Now
