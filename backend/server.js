@@ -8,7 +8,7 @@ const bookingRoutes = require("./routes/bookingRoutes");
 const testimonialsRoute = require("./routes/testimonials");
 const messageRoutes = require("./routes/messageRoutes");
 const userRoutes = require("./routes/userRoutes");
-
+const authRoutes = require("./routes/authRoutes");
 
 
 const app = express();
@@ -24,6 +24,7 @@ app.use("/api/bookings", bookingRoutes);
 app.use("/api/testimonials", testimonialsRoute);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 
 // Root route
 app.get("/", (req, res) => res.send("Calm Rest Backend is running"));

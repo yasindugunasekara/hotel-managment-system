@@ -7,7 +7,7 @@ const countries = [
   "New Zealand", "Norway", "Denmark", "Finland", "Ireland", "Singapore",
   "Malaysia", "Thailand", "Indonesia", "Philippines", "Vietnam", "Argentina",
   "Chile", "Colombia", "Peru", "Venezuela", "Saudi Arabia", "UAE", "Turkey",
-  "Egypt", "Nigeria", "Kenya", "Ethiopia", "Pakistan", "Bangladesh", "Sri Lanka"
+  "Egypt", "Nigeria", "Kenya", "Ethiopia", "Pakistan", "Bangladesh", "Sri Lanka", "England"
 ];
 
 const Register: React.FC = () => {
@@ -22,6 +22,7 @@ const Register: React.FC = () => {
 
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -35,14 +36,53 @@ const Register: React.FC = () => {
     setShowSuggestions(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (form.password !== form.confirmPassword) {
       setError("Passwords do not match!");
       return;
     }
-    console.log("Form Submitted", form);
-    alert("Registration Successful!");
+
+    try {
+      setLoading(true);
+      setError("");
+
+      const res = await fetch("http://localhost:5000/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          firstName: form.firstName,
+          lastName: form.lastName,
+          country: form.country,
+          email: form.email,
+          password: form.password,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("Registration Successful!");
+        console.log("User registered:", data);
+
+        setForm({
+          firstName: "",
+          lastName: "",
+          country: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
+      } else {
+        setError(data.error || "Something went wrong");
+      }
+    } catch (err) {
+      console.error("Error:", err);
+      setError("Server error. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -144,9 +184,10 @@ const Register: React.FC = () => {
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-black text-white py-2 px-4 rounded-lg hover:bg-gold hover:text-black transition-all"
           >
-            Register
+            {loading ? "Registering..." : "Register"}
           </button>
         </form>
 
