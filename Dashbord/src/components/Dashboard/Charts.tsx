@@ -98,7 +98,7 @@ export const RoomTypesChart = () => {
   useEffect(() => {
     const fetchRoomTypes = async () => {
       try {
-        const response = await axios.get<RoomType[]>('http://localhost:5000/api/rooms/');
+        const response = await axios.get<RoomType[]>(`${import.meta.env.VITE_API_BASE_URL}/rooms/`);
         const rooms = response.data;
 
         // Count rooms by category

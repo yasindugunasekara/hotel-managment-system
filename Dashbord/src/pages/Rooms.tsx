@@ -16,7 +16,7 @@ export const Rooms = () => {
 
   const fetchRooms = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/rooms");
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/rooms`);
       const data = await res.json();
       setRooms(data);
     } catch (err) {
@@ -39,7 +39,7 @@ export const Rooms = () => {
   // Delete room
   const handleDeleteRoom = async (id: string) => {
     try {
-      await fetch(`http://localhost:5000/api/rooms/${id}`, {
+      await fetch(`${import.meta.env.VITE_API_BASE_URL}/rooms/${id}`, {
         method: "DELETE",
       });
       fetchRooms();
@@ -53,14 +53,14 @@ export const Rooms = () => {
     try {
       if (editingRoom) {
         // update
-        await fetch(`http://localhost:5000/api/rooms/${editingRoom._id}`, {
+        await fetch(`${import.meta.env.VITE_API_BASE_URL}/rooms/${editingRoom._id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(roomData),
         });
       } else {
         // create
-        await fetch("http://localhost:5000/api/rooms", {
+        await fetch(`${import.meta.env.VITE_API_BASE_URL}/rooms`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(roomData),

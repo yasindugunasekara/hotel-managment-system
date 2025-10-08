@@ -29,7 +29,7 @@ export const Bookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/bookings");
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/bookings`);
         const json = await res.json();
         setBookings(Array.isArray(json) ? json : []);
       } catch (err) {

@@ -29,7 +29,7 @@ const RoomDetails: React.FC = () => {
   useEffect(() => {
     const fetchRoom = async () => {
       try {
-        const res = await fetch(`http://localhost:5000/api/rooms/${id}`);
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/rooms/${id}`);
         const data = await res.json();
         setRoom(data);
       } catch (err) {

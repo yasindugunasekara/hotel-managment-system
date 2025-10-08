@@ -20,7 +20,7 @@ export const MessagesPage = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/messages");
+        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/messages`);
         // Ensure we get an array no matter what
         const data = Array.isArray(response.data) ? response.data : response.data.data || [];
         setMessages(data);

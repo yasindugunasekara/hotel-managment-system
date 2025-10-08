@@ -12,7 +12,7 @@ const Rooms = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
     // ✅ Fetch rooms from backend API
-    fetch("http://localhost:5000/api/rooms")
+    fetch(`${import.meta.env.VITE_API_BASE_URL}/rooms`)
       .then((res) => res.json())
       .then((data) => {
         setRooms(data);
