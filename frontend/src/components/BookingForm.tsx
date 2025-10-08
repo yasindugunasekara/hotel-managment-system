@@ -23,7 +23,7 @@ const BookingForm: React.FC = () => {
   useEffect(() => {
     const fetchRooms = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/rooms");
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/rooms`);
         const data: Room[] = await res.json();
         setRooms(data);
 
@@ -75,7 +75,7 @@ const BookingForm: React.FC = () => {
     };
 
     try {
-      const res = await fetch("http://localhost:5000/api/bookings", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/bookings`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookingData),
