@@ -24,6 +24,9 @@ export const RoomModal = ({ isOpen, onClose, onSave, room }: RoomModalProps) => 
     amenities: [] as string[],
     features: [] as { name: string; icon: string }[],
     description: "",
+    type: "standard",
+    available: true,
+    capacity: 2,
   });
 
   // Load room data into form if editing
@@ -41,6 +44,9 @@ export const RoomModal = ({ isOpen, onClose, onSave, room }: RoomModalProps) => 
         amenities: room.amenities || [],
         features: room.features || [],
         description: room.description || "",
+        type: room.type || "standard",
+        available: room.available !== undefined ? room.available : true,
+        capacity: room.capacity || 2,
       });
     } else {
       // Reset to empty when adding new room
@@ -56,6 +62,9 @@ export const RoomModal = ({ isOpen, onClose, onSave, room }: RoomModalProps) => 
         amenities: [],
         features: [],
         description: "",
+        type: "standard",
+        available: true,
+        capacity: 2,
       });
     }
   }, [room]);

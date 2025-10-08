@@ -12,16 +12,24 @@ export interface Booking {
 }
 
 export interface Room {
-  id: string;
+  id?: string;           // or _id if using MongoDB
+  _id?: string;          // add this if using MongoDB
   name: string;
-  type: string;
-  price: number;
+  category: string;
   image: string;
+  price: number;
+  rating: number;
+  size: string;
+  guests: number;
+  bed: string;
   amenities: string[];
+  features: { name: string; icon: string }[];
+  description: string;
+  type: string;
   available: boolean;
   capacity: number;
-  description: string;
 }
+
 
 export interface User {
   id: string;

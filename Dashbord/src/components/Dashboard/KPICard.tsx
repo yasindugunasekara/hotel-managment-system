@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { DivideIcon as LucideIcon, TrendingUp, TrendingDown } from 'lucide-react';
+import { TrendingUp, TrendingDown, type LucideIcon } from 'lucide-react';
 
 interface KPICardProps {
   title: string;

@@ -21,7 +21,7 @@ const navigationItems = [
 
 export const Sidebar = () => {
   const location = useLocation();
-  const { isOpen, isMobile, closeSidebar } = useSidebar();
+  const { isOpen, closeSidebar } = useSidebar();
 
   const sidebarVariants = {
     open: { x: 0 },

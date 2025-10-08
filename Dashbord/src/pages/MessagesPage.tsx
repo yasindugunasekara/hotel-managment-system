@@ -22,7 +22,7 @@ export const MessagesPage = () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/messages`);
         // Ensure we get an array no matter what
-        const data = Array.isArray(response.data) ? response.data : response.data.data || [];
+        const data = Array.isArray(response.data) ? response.data : (response.data as { data?: Message[] }).data || [];
         setMessages(data);
       } catch (error) {
         console.error("Error fetching messages:", error);
