@@ -68,7 +68,7 @@ const Home = () => {
             <button
               className="bg-gold text-white px-20 py-4 text-lg font-medium hover:bg-opacity-90 rounded transition-all duration-300 transform hover:scale-105"
               onClick={() => {
-                window.location.href = '/book';
+                window.location.href = '/login';
               }}
             >
               {t('bookNow')}
