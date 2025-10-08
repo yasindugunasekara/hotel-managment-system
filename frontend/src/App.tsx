@@ -14,6 +14,7 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import BookingPage from "./pages/BookingPage";
 import Login from "./pages/auth/Login";
 import Register from './pages/auth/Register';
+import RoomDetails from './pages/RoomDetails';
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
               <Route path="/book" element={<BookingPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="/rooms/:id" element={<RoomDetails />} />
             </Routes>
           </main>
           <Footer />

@@ -89,87 +89,92 @@ const Rooms = () => {
             >
               {/* Room Card */}
               <div className="relative overflow-hidden">
-                <img
-                  src={room.image}
-                  alt={room.name}
-                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-                <div className="absolute top-4 right-4 bg-gold text-white px-3 py-1 rounded-full font-semibold">
-                  ${room.price}/night
-                </div>
-                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center space-x-1">
-                  <Star fill="currentColor" className="text-gold w-4 h-4" />
-                  <span className="font-semibold text-sm">{room.rating}</span>
-                </div>
+          <img
+            src={room.image}
+            alt={room.name}
+            className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+          />
+          <div className="absolute top-4 right-4 bg-gold text-white px-3 py-1 rounded-full font-semibold">
+            ${room.price}/night
+          </div>
+          <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center space-x-1">
+            <Star fill="currentColor" className="text-gold w-4 h-4" />
+            <span className="font-semibold text-sm">{room.rating}</span>
+          </div>
               </div>
 
               <div className="p-6">
-                <h3 className="text-xl font-semibold mb-2 text-navy font-serif">
-                  {room.name}
-                </h3>
-                <p className="text-gray-600 mb-4 text-sm line-clamp-2">
-                  {room.description}
-                </p>
+          <h3 className="text-xl font-semibold mb-2 text-navy font-serif">
+            {room.name}
+          </h3>
+          <p className="text-gray-600 mb-4 text-sm line-clamp-2">
+            {room.description}
+          </p>
 
-                {/* Details */}
-                <div className="grid grid-cols-3 gap-4 mb-4 text-sm text-gray-600">
-                  <div className="flex items-center space-x-1">
-                    <Bed size={14} />
-                    <span>{room.bed}</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <Users size={14} />
-                    <span>{room.guests} Guests</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <Bath size={14} />
-                    <span>{room.size}</span>
-                  </div>
-                </div>
+          {/* Details */}
+          <div className="grid grid-cols-3 gap-4 mb-4 text-sm text-gray-600">
+            <div className="flex items-center space-x-1">
+              <Bed size={14} />
+              <span>{room.bed}</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <Users size={14} />
+              <span>{room.guests} Guests</span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <Bath size={14} />
+              <span>{room.size}</span>
+            </div>
+          </div>
 
-                {/* Features */}
-                <div className="flex flex-wrap gap-3 mb-4 text-sm">
-                  {room.features.map((feature, index) => (
-                    <div key={index} className="text-gold flex items-center space-x-1">
-                      <span>{feature.icon}</span>
-                      <span>{feature.name}</span>
-                    </div>
-                  ))}
-                </div>
+          {/* Features */}
+          <div className="flex flex-wrap gap-3 mb-4 text-sm">
+            {room.features.map((feature, index) => (
+              <div key={index} className="text-gold flex items-center space-x-1">
+                <span>{feature.icon}</span>
+                <span>{feature.name}</span>
+              </div>
+            ))}
+          </div>
 
-                {/* Amenities */}
-                <div className="mb-4">
-                  <div className="flex flex-wrap gap-2">
-                    {room.amenities.slice(0, 3).map((amenity, index) => (
-                      <span
-                        key={index}
-                        className="text-xs bg-cream px-2 py-1 rounded-full text-gray-600"
-                      >
-                        {amenity}
-                      </span>
-                    ))}
-                    {room.amenities.length > 3 && (
-                      <span className="text-xs text-gold">
-                        +{room.amenities.length - 3} more
-                      </span>
-                    )}
-                  </div>
-                </div>
+          {/* Amenities */}
+          <div className="mb-4">
+            <div className="flex flex-wrap gap-2">
+              {room.amenities.slice(0, 3).map((amenity, index) => (
+                <span
+            key={index}
+            className="text-xs bg-cream px-2 py-1 rounded-full text-gray-600"
+                >
+            {amenity}
+                </span>
+              ))}
+              {room.amenities.length > 3 && (
+                <span className="text-xs text-gold">
+            +{room.amenities.length - 3} more
+                </span>
+              )}
+            </div>
+          </div>
 
-                {/* Buttons */}
-                <div className="flex space-x-2">
-                  <button
-                    className="flex-1 bg-gold text-white py-2 px-4 rounded hover:bg-opacity-90 transition-all duration-300 font-medium text-sm"
-                    onClick={() => {
-                      window.location.href = "/login";
-                    }}
-                  >
-                    Book Now
-                  </button>
-                  <button className="px-4 py-2 border border-gold text-gold rounded hover:bg-gold hover:text-white transition-all duration-300 text-sm">
-                    Details
-                  </button>
-                </div>
+          {/* Buttons */}
+          <div className="flex space-x-2">
+            <button
+              className="flex-1 bg-gold text-white py-2 px-4 rounded hover:bg-opacity-90 transition-all duration-300 font-medium text-sm"
+              onClick={() => {
+                window.location.href = "/login";
+              }}
+            >
+              Book Now
+            </button>
+            <button 
+              className="px-4 py-2 border border-gold text-gold rounded hover:bg-gold hover:text-white transition-all duration-300 text-sm"
+              onClick={() => {
+                window.location.href = `/rooms/${room._id}`;
+              }}
+            >
+              Details
+            </button>
+          </div>
               </div>
             </div>
           ))}
