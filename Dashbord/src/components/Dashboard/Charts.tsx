@@ -124,7 +124,9 @@ export const RoomTypesChart = () => {
   }, []);
 
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-gray-700">
+    <div className="bg-white dark:bg-gray-800 rounded p-6 shadow-sm border border-gray-200 dark:border-gray-700 width-full high-screen">
+
+
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
         Room Types Distribution
       </h3>
@@ -137,7 +139,7 @@ export const RoomTypesChart = () => {
             outerRadius={80}
             fill="#706dafff"
             dataKey="value"
-            label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+            label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
           >
             {roomTypesData.map((_, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
