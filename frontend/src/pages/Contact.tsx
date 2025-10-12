@@ -28,7 +28,7 @@ const Contact = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await axios.post(`${import.meta.env.VITE_API_BASE_URL}`, formData);
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/messages`, formData);
       alert("Message sent successfully! ✅");
       setFormData({
         fullName: "",
