@@ -108,7 +108,7 @@ const Home = () => {
                   <p className="text-gray-600">Concierge Service</p>
                 </div>
               </div>
-              <button className="bg-gold text-white px-8 py-3 rounded hover:bg-opacity-90 transition-all duration-300 font-medium">
+              <button className="bg-gold text-white px-8 py-3 rounded hover:bg-opacity-90 transition-all duration-300 font-medium " onClick={() => window.location.href = '/about'}>
                 {t('learnMore')}
               </button>
             </div>
