@@ -146,7 +146,7 @@ const Navbar = () => {
                 <button
                   className="w-full bg-gold text-white px-6 py-2 rounded hover:bg-opacity-90 transition-all duration-300 font-medium"
                    onClick={() => {
-              window.location.href = '/Login';
+              window.location.href = '/login';
               }}
                 >
                   {t('bookNow')}
