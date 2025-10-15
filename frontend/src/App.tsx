@@ -2,7 +2,6 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
 import Home from "./pages/Home";
 import Rooms from "./pages/Rooms";
 import About from "./pages/About";
@@ -24,22 +23,11 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
   // Routes where navbar/footer should be hidden
   const hideRoutes = ["/login", "/register", "/404"];
 
-  // Valid routes (prefix-based check)
-  const allowedPrefixes = [
-    "/", "/rooms", "/about", "/location",
-    "/testimonials", "/write-review", "/contact",
-    "/profile", "/book"
-  ];
-
-  const isAllowedRoute = allowedPrefixes.some(prefix =>
-    location.pathname === prefix || location.pathname.startsWith(prefix + "/")
-  );
-
   const isHiddenRoute = hideRoutes.some(prefix =>
     location.pathname === prefix
   );
 
-  const hideLayout = isHiddenRoute || !isAllowedRoute;
+  const hideLayout = isHiddenRoute;
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
