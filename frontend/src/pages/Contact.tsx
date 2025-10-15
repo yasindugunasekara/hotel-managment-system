@@ -11,6 +11,7 @@ const Contact = () => {
   });
 
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   // Scroll to top when page loads
   useEffect(() => {
@@ -27,9 +28,10 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setSuccess(false);
     try {
       await axios.post(`${import.meta.env.VITE_API_BASE_URL}/messages`, formData);
-      alert("Message sent successfully! ✅");
+      setSuccess(true);
       setFormData({
         fullName: "",
         email: "",
@@ -38,13 +40,14 @@ const Contact = () => {
       });
     } catch (error) {
       console.error(error);
-      alert("Something went wrong. Please try again later.");
+      setSuccess(false);
     } finally {
       setLoading(false);
+      // Hide success after 3 seconds
+      setTimeout(() => setSuccess(false), 3000);
     }
   };
 
-  // Contact info cards
   const contactInfo = [
     {
       icon: <Phone className="w-6 h-6" />,
@@ -200,16 +203,26 @@ const Contact = () => {
               disabled={loading}
               className="w-full bg-gold text-white py-3 px-6 rounded-lg hover:bg-opacity-90 transition-all duration-300 font-medium flex items-center justify-center space-x-2"
             >
-              <Send className="w-5 h-5" />
-              <span>{loading ? "Sending..." : "Send Message"}</span>
+              {loading ? (
+                <>
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Sending...</span>
+                </>
+              ) : success ? (
+                <span className="text-green-200 flex items-center space-x-2">
+                  ✅ <span>Message Sent!</span>
+                </span>
+              ) : (
+                <>
+                  <Send className="w-5 h-5" />
+                  <span>Send Message</span>
+                </>
+              )}
             </button>
           </form>
-          
-          
         </div>
       </section>
     </div>
-    
   );
 };
 

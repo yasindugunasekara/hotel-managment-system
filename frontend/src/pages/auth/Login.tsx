@@ -1,13 +1,17 @@
 import React, { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, Loader2, CheckCircle } from "lucide-react";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+    setSuccess(false);
 
     try {
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/login`, {
@@ -19,28 +23,22 @@ const Login = () => {
       const data = await res.json();
 
       if (res.ok) {
-        alert("✅ Login Successful!");
-        // You need to import useNavigate from react-router-dom and initialize it:
-        // import { useNavigate } from "react-router-dom";
-        // const navigate = useNavigate();
-        // Then you can use it to redirect:
-        // navigate("/bookingForm");
-        // For now, we'll just log to the console as a placeholder for navigation.
-        // Add a class to the body for a fade-out effect
+        setSuccess(true);
+        // Add fade effect (optional)
         document.body.classList.add("fade-out");
 
-        // Wait for the animation to complete before redirecting
+        // Redirect after short delay
         setTimeout(() => {
-          console.log("Redirecting to booking form...");
-          window.location.href = "/book"; // Or use react-router's navigate
-        }, 500); // This duration should match the CSS animation duration
-        
+          window.location.href = "/book"; // Redirect to your desired page
+        }, 1200);
       } else {
-        alert("❌ " + data.error);
+        setSuccess(false);
       }
     } catch (err) {
       console.error("Login error:", err);
-      alert("❌ Server error, try again later");
+      setSuccess(false);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -65,7 +63,7 @@ const Login = () => {
           <h2 className="text-2xl font-bold text-center mb-6">
             Welcome Back to Calm Rest
           </h2>
-          <p className="text-center text-gray-500 mb-6">Sign in your account</p>
+          <p className="text-center text-gray-500 mb-6">Sign in to your account</p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email */}
@@ -76,7 +74,7 @@ const Login = () => {
                 placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gold"
                 required
               />
             </div>
@@ -90,7 +88,7 @@ const Login = () => {
                   placeholder="Enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-gold"
                   required
                 />
                 <button
@@ -108,7 +106,7 @@ const Login = () => {
               <label className="flex items-center gap-2">
                 <input type="checkbox" className="w-4 h-4" /> Remember Me
               </label>
-              <a href="#" className="text-blue-600 hover:underline">
+              <a href="#" className="text-gold hover:underline">
                 Forgot Password?
               </a>
             </div>
@@ -116,19 +114,31 @@ const Login = () => {
             {/* Login Button */}
             <button
               type="submit"
-              className="w-full bg-black text-white py-2 rounded hover:bg-gray-800"
+              disabled={loading || success}
+              className={`w-full py-2 rounded text-white transition-all duration-300 flex items-center justify-center space-x-2 font-medium
+                ${success ? "bg-green-600" : "bg-black hover:bg-gray-800"}
+                ${loading ? "opacity-90 cursor-not-allowed" : ""}`}
             >
-              Login
+              {loading ? (
+                <>
+                  <Loader2 className="animate-spin w-5 h-5" />
+                  <span>Logging in...</span>
+                </>
+              ) : success ? (
+                <>
+                  <CheckCircle className="w-5 h-5" />
+                  <span>Login Successful!</span>
+                </>
+              ) : (
+                <span>Login</span>
+              )}
             </button>
           </form>
 
           {/* Register Link */}
           <p className="text-center text-sm text-gray-600 mt-6">
             Don’t have an account?{" "}
-            <a
-              href="/register"
-              className="text-blue-600 hover:underline"
-            >
+            <a href="/register" className="text-gold hover:underline">
               Register
             </a>
           </p>
