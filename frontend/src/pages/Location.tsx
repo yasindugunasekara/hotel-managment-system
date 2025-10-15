@@ -71,13 +71,7 @@ const Location = () => {
 
   return (
     <div className="min-h-screen bg-white relative">
-      {/* Sticky Contact */}
-      <div className="fixed bottom-4 right-4 bg-gold text-white p-4 rounded-lg shadow-lg hidden md:flex flex-col items-center z-50">
-        <Phone className="w-5 h-5 mb-2" />
-        <span className="font-medium text-sm">+1 (555) 123-4567</span>
-        <Mail className="w-5 h-5 mt-2 mb-1" />
-        <span className="font-medium text-sm">info@calmrest.com</span>
-      </div>
+      
 
       {/* Hero Section */}
       <section className="relative h-96 flex items-center justify-center text-center text-white">
