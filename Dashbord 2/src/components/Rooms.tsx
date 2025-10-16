@@ -47,7 +47,7 @@ export default function App() {
 
   const fetchRooms = async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/rooms`);
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/rooms`);
       if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
       const data = await res.json();
       setRooms(data);
@@ -78,7 +78,7 @@ export default function App() {
   const confirmDelete = async () => {
     if (!roomToDelete) return;
     try {
-      await fetch(`${API_BASE_URL}/rooms/${roomToDelete._id}`, {
+      await fetch(`${import.meta.env.VITE_API_BASE_URL}/rooms/${roomToDelete._id}`, {
         method: "DELETE",
       });
       fetchRooms(); // Refresh the room list
