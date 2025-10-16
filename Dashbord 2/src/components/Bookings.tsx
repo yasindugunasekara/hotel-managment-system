@@ -22,7 +22,7 @@ export default function Bookings() {
     const fetchBookings = async () => {
       try {
         const response = await axios.get<Booking[]>(
-          "http://localhost:5000/api/bookings"
+          `${import.meta.env.VITE_API_BASE_URL}/bookings`
         );
         const dataWithStatus = response.data.map((b) => ({
           ...b,
