@@ -38,7 +38,7 @@ export default function Messages() {
 
     // Use the full backend URL during development to avoid proxy issues.
     // Replace 'http://localhost:5000' with your actual backend server address if it's different.
-    const API_BASE_URL = "http://localhost:5000/api"; 
+    const API_BASE_URL = `${import.meta.env.VITE_API_BASE_URL}`;
 
     useEffect(() => {
         const fetchMessages = async () => {
