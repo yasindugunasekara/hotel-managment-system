@@ -4,7 +4,7 @@ import { Plus, Edit, Trash2, Users, X, BedDouble, Wind, Tv, UtensilsCrossed, Wif
 // --- HELPER COMPONENTS ---
 
 // Amenity Icon Component
-const AmenityIcon = ({ amenity }) => {
+const AmenityIcon = ({ amenity }: { amenity: keyof typeof iconMap }) => {
     const iconMap = {
         wifi: <Wifi size={18} />,
         airConditioning: <Wind size={18} />,
