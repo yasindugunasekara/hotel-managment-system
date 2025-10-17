@@ -92,7 +92,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md p-6">
+      <div className="bg-white rounded-xl  p-6">
         <h3 className="text-lg font-semibold mb-4">Recent Bookings</h3>
         <div className="overflow-x-auto">
           <table className="w-full">
@@ -128,7 +128,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md p-6">
+      <div className="bg-white rounded-xl  p-6">
         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
           <Clock className="w-5 h-5 text-orange-600" />
           Latest Updates
