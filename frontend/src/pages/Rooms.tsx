@@ -89,18 +89,22 @@ const Rooms = () => {
             >
               {/* Room Card */}
               <div className="relative overflow-hidden">
-          <img
-            src={room.image}
-            alt={room.name}
-            className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
-          />
-          <div className="absolute top-4 right-4 bg-gold text-white px-3 py-1 rounded-full font-semibold">
-            ${room.price}/night
-          </div>
-          <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center space-x-1">
-            <Star fill="currentColor" className="text-gold w-4 h-4" />
-            <span className="font-semibold text-sm">{room.rating}</span>
-          </div>
+                <img
+                  src={
+                    Array.isArray(room.images) && room.images.length > 0
+                      ? room.images[0]
+                      : room.image ?? "https://via.placeholder.com/800x600?text=No+Image"
+                  }
+                  alt={room.name}
+                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute top-4 right-4 bg-gold text-white px-3 py-1 rounded-full font-semibold">
+                  ${room.price}/night
+                </div>
+                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full flex items-center space-x-1">
+                  <Star fill="currentColor" className="text-gold w-4 h-4" />
+                  <span className="font-semibold text-sm">{room.rating}</span>
+                </div>
               </div>
 
               <div className="p-6">
