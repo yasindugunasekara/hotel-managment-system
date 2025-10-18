@@ -27,6 +27,8 @@ const RoomDetails: React.FC = () => {
   const [room, setRoom] = useState<Room | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
 
   useEffect(() => {
     const fetchRoom = async () => {
@@ -60,89 +62,106 @@ const RoomDetails: React.FC = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto bg-white overflow-hidden flex flex-col md:flex-row pt-3 pb-10">
+    <div className="max-w-5xl mx-auto bg-white overflow-hidden flex flex-col md:flex-row pt-3 pb-10 mt-6">
       {/* Left - Image Carousel */}
       <div className="relative w-full md:w-1/2 h-auto">
-        <div id="gallery" className="relative w-full">
-          {/* Carousel wrapper */}
-          <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
-            {images.map((img, index) => (
-              <div
-                key={index}
-                className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
-                  index === activeIndex ? "opacity-100" : "opacity-0"
-                }`}
-              >
-                <img
-                  src={img}
-                  className="block w-full h-full object-cover rounded-lg"
-                  alt={`Room ${index + 1}`}
-                />
-              </div>
-            ))}
+      {/* Image Carousel */}
+      <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
+        {images.map((img, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+              index === activeIndex ? "opacity-100" : "opacity-0"
+            }`}
+          >
+            <img
+              src={img}
+              className="block w-full h-full object-cover rounded-lg cursor-pointer"
+              alt={`Room ${index + 1}`}
+              onClick={() => setIsFullscreen(true)}
+            />
           </div>
-
-          {/* Slider controls */}
-          <button
-            onClick={prevSlide}
-            type="button"
-            className="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-          >
-            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
-              <svg
-                className="w-4 h-4 text-white rtl:rotate-180"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 6 10"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M5 1 1 5l4 4"
-                />
-              </svg>
-              <span className="sr-only">Previous</span>
-            </span>
-          </button>
-
-          <button
-            onClick={nextSlide}
-            type="button"
-            className="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
-          >
-            <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
-              <svg
-                className="w-4 h-4 text-white rtl:rotate-180"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 6 10"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="m1 9 4-4-4-4"
-                />
-              </svg>
-              <span className="sr-only">Next</span>
-            </span>
-          </button>
-        </div>
-
-        {/* Back button */}
-        <button
-          className="absolute top-4 left-4 bg-gray-800 bg-opacity-70 text-white px-4 py-2 rounded-full text-sm shadow-md hover:bg-gray-700 transition-all"
-          onClick={() => navigate(-1)}
-        >
-          ← Back
-        </button>
+        ))}
       </div>
 
+      {/* Controls */}
+      <button
+        onClick={prevSlide}
+        type="button"
+        className="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+      >
+        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
+          <svg
+            className="w-4 h-4 text-white rtl:rotate-180"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M5 1 1 5l4 4"
+            />
+          </svg>
+        </span>
+      </button>
+
+      <button
+        onClick={nextSlide}
+        type="button"
+        className="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+      >
+        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white">
+          <svg
+            className="w-4 h-4 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="m1 9 4-4-4-4"
+            />
+          </svg>
+        </span>
+      </button>
+
+      {/* Fullscreen Popup */}
+      {isFullscreen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90">
+          <img
+            src={images[activeIndex]}
+            alt="Fullscreen"
+            className="max-w-full max-h-[90vh] object-contain rounded-lg"
+          />
+          <button
+            onClick={() => setIsFullscreen(false)}
+            className="absolute top-5 right-5 bg-white/20 hover:bg-white/40 text-white px-4 py-2 rounded-full"
+          >
+            ✕ Close
+          </button>
+
+          {/* Optional: Navigation inside fullscreen */}
+          <button
+            onClick={prevSlide}
+            className="absolute left-5 text-white text-3xl font-bold"
+          >
+            ‹
+          </button>
+          <button
+            onClick={nextSlide}
+            className="absolute right-5 text-white text-3xl font-bold"
+          >
+            ›
+          </button>
+        </div>
+      )}
+    </div>
       {/* Right - Details Section */}
       <div className="p-6 md:p-8 flex flex-col justify-between w-full">
         <div>
@@ -230,6 +249,13 @@ const RoomDetails: React.FC = () => {
             )}
             <span className="text-gray-500 text-sm"> / 1 nights</span>
           </div>
+          {/* Back button */}
+        <button
+          className="bg-black text-white px-5 md:px-6 py-2 md:py-3 rounded-lg hover:bg-black/80 transition-all w-full sm:w-auto text-center "
+          onClick={() => navigate(-1)}
+        >
+          ← Back
+        </button>
           <button
             className="bg-gold text-white px-6 md:px-8 py-2 md:py-3 rounded-lg hover:bg-gold/80 transition-all w-full sm:w-auto text-center"
             onClick={() => navigate("/login")}
