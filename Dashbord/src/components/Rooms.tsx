@@ -1,4 +1,11 @@
 import React, { useState, useEffect } from "react";
+
+// Extend the Window interface to include the cloudinary property
+declare global {
+  interface Window {
+    cloudinary: any;
+  }
+}
 import {
   Plus,
   Edit,
@@ -16,25 +23,50 @@ import {
 // --- HELPER COMPONENTS ---
 
 // Amenity Icon Component
+const iconMap = {
+  wifi: <Wifi size={18} />,
+  airConditioning: <Wind size={18} />,
+  tv: <Tv size={18} />,
+  roomService: <UtensilsCrossed size={18} />,
+  balcony: <BedDouble size={18} />,
+  hotWater: <Bath size={18} />,
+};
+
 const AmenityIcon = ({ amenity }: { amenity: keyof typeof iconMap }) => {
-  const iconMap = {
-    wifi: <Wifi size={18} />,
-    airConditioning: <Wind size={18} />,
-    tv: <Tv size={18} />,
-    roomService: <UtensilsCrossed size={18} />,
-    balcony: <BedDouble size={18} />,
-    hotWater: <Bath size={18} />,
-  };
   return iconMap[amenity] || null;
 };
 
 // --- MAIN APP COMPONENT ---
 export default function App() {
-  const [rooms, setRooms] = useState([]);
+  const [rooms, setRooms] = useState<Array<{
+    _id: string;
+    name: string;
+    category: string;
+    description: string;
+    guests: number;
+    price: number;
+    images: string[];
+  }>>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingRoom, setEditingRoom] = useState(null);
+  const [editingRoom, setEditingRoom] = useState<{
+    _id: string;
+    name: string;
+    category: string;
+    description: string;
+    guests: number;
+    price: number;
+    images: string[];
+  } | null>(null);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
-  const [roomToDelete, setRoomToDelete] = useState(null);
+  const [roomToDelete, setRoomToDelete] = useState<{
+    _id: string;
+    name: string;
+    category: string;
+    description: string;
+    guests: number;
+    price: number;
+    images: string[];
+  } | null>(null);
 
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api";
 
@@ -63,13 +95,13 @@ export default function App() {
   };
 
   // Edit room
-  const handleEditRoom = (room) => {
+  const handleEditRoom = (room: { _id: string; name: string; category: string; description: string; guests: number; price: number; images: string[] }) => {
     setEditingRoom(room);
     setIsModalOpen(true);
   };
 
   // Set up room for deletion
-  const handleDeleteClick = (room) => {
+  const handleDeleteClick = (room: { _id: string; name: string; category: string; description: string; guests: number; price: number; images: string[] }) => {
     setRoomToDelete(room);
     setIsDeleteConfirmOpen(true);
   };
@@ -91,7 +123,21 @@ export default function App() {
   };
 
   // Save (add or update) a room
-  const handleSaveRoom = async (roomData) => {
+  interface RoomData {
+    name: string;
+    category: string;
+    price: number;
+    rating: number;
+    size: number;
+    guests: number;
+    bedType: string;
+    images: string[];
+    description: string;
+    amenities: string[];
+    features: string[];
+  }
+
+  const handleSaveRoom = async (roomData: RoomData) => {
     try {
       const url = editingRoom
         ? `${API_BASE_URL}/rooms/${editingRoom._id}`
@@ -151,7 +197,18 @@ export default function App() {
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onSave={handleSaveRoom}
-          room={editingRoom}
+          room={
+            editingRoom
+              ? {
+                  ...editingRoom,
+                  rating: 0,
+                  size: 0,
+                  bedType: "",
+                  amenities: [],
+                  features: [],
+                }
+              : null
+          }
         />
       )}
 
@@ -166,7 +223,39 @@ export default function App() {
 }
 
 // --- Room Card Component ---
-const RoomCard = ({ room, onEdit, onDelete }) => {
+const RoomCard = ({
+  room,
+  onEdit,
+  onDelete,
+}: {
+  room: {
+    _id: string;
+    name: string;
+    category: string;
+    description: string;
+    guests: number;
+    price: number;
+    images: string[];
+  };
+  onEdit: (room: {
+    _id: string;
+    name: string;
+    category: string;
+    description: string;
+    guests: number;
+    price: number;
+    images: string[];
+  }) => void;
+  onDelete: (room: {
+    _id: string;
+    name: string;
+    category: string;
+    description: string;
+    guests: number;
+    price: number;
+    images: string[];
+  }) => void;
+}) => {
   return (
     <div className="bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl">
       <img
@@ -212,7 +301,38 @@ const RoomCard = ({ room, onEdit, onDelete }) => {
 };
 
 // --- Add/Edit Room Modal ---
-const RoomModal = ({ isOpen, onClose, onSave, room }) => {
+interface RoomModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSave: (roomData: {
+    name: string;
+    category: string;
+    price: number;
+    rating: number;
+    size: number;
+    guests: number;
+    bedType: string;
+    images: string[];
+    description: string;
+    amenities: string[];
+    features: string[];
+  }) => void;
+  room: {
+    name: string;
+    category: string;
+    price: number;
+    rating: number;
+    size: number;
+    guests: number;
+    bedType: string;
+    images: string[];
+    description: string;
+    amenities: string[];
+    features: string[];
+  } | null;
+}
+
+const RoomModal = ({ isOpen, onClose, onSave, room }: RoomModalProps) => {
   const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
@@ -266,8 +386,8 @@ const RoomModal = ({ isOpen, onClose, onSave, room }) => {
 
   if (!isOpen) return null;
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type, checked } = e.target as HTMLInputElement;
     if (name === "amenities") {
       const currentAmenities = formData.amenities || [];
       if (checked) {
@@ -299,14 +419,14 @@ const RoomModal = ({ isOpen, onClose, onSave, room }) => {
     }
   };
 
-  const handleRemoveFeature = (index) => {
+  const handleRemoveFeature = (index: number) => {
     setFormData((prev) => ({
       ...prev,
       features: (formData.features || []).filter((_, i) => i !== index),
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSave(formData);
   };
@@ -321,7 +441,7 @@ const RoomModal = ({ isOpen, onClose, onSave, room }) => {
           multiple: true, // allow multiple images
           folder: "Rooms",
         },
-        (error, result) => {
+        (error: unknown, result: any) => {
           if (!error && result && result.event === "success") {
             setFormData((prev) => ({
               ...prev,
@@ -465,7 +585,7 @@ const RoomModal = ({ isOpen, onClose, onSave, room }) => {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              rows="3"
+              rows={3}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             ></textarea>
           </div>
@@ -486,7 +606,7 @@ const RoomModal = ({ isOpen, onClose, onSave, room }) => {
                     className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
                   <span className="capitalize flex items-center gap-1.5 text-gray-600">
-                    <AmenityIcon amenity={amenity} />{" "}
+                    <AmenityIcon amenity={amenity as keyof typeof iconMap} />{" "}
                     {amenity.replace(/([A-Z])/g, " $1")}
                   </span>
                 </label>
@@ -554,7 +674,7 @@ const RoomModal = ({ isOpen, onClose, onSave, room }) => {
   );
 };
 
-const InputField = ({ label, ...props }) => (
+const InputField: React.FC<{ label: string } & React.InputHTMLAttributes<HTMLInputElement>> = ({ label, ...props }) => (
   <div>
     <label
       htmlFor={props.name}
@@ -571,7 +691,7 @@ const InputField = ({ label, ...props }) => (
 );
 
 // --- Delete Confirmation Modal ---
-const DeleteConfirmationModal = ({ onConfirm, onCancel }) => (
+const DeleteConfirmationModal: React.FC<{ onConfirm: () => void; onCancel: () => void }> = ({ onConfirm, onCancel }) => (
   <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
     <div className="bg-white rounded-lg shadow-2xl max-w-md w-full p-6">
       <h3 className="text-lg font-semibold text-gray-800 mb-4">
