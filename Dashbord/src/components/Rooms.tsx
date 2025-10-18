@@ -171,7 +171,9 @@ const RoomCard = ({ room, onEdit, onDelete }) => {
     <div className="bg-white rounded-xl shadow-md overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl">
       <img
         src={
-          room.image || "https://placehold.co/600x400/EEE/31343C?text=No+Image"
+          room.images && room.images.length > 0
+            ? room.images[0]
+            : "https://placehold.co/600x400/EEE/31343C?text=No+Image"
         }
         alt={room.name}
         className="w-full h-56 object-cover"
@@ -214,19 +216,31 @@ const RoomModal = ({ isOpen, onClose, onSave, room }) => {
   const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
-  const [formData, setFormData] = useState({
-    name: "",
-    category: "",
-    price: 0,
-    rating: 0,
-    size: 0,
-    guests: 1,
-    bedType: "",
-    image: "",
-    description: "",
-    amenities: [],
-    features: [],
-  });
+  const [formData, setFormData] = useState<{
+      name: string;
+      category: string;
+      price: number;
+      rating: number;
+      size: number;
+      guests: number;
+      bedType: string;
+      images: string[]; // Explicitly typed as string[]
+      description: string;
+      amenities: string[];
+      features: string[];
+    }>({
+      name: "",
+      category: "",
+      price: 0,
+      rating: 0,
+      size: 0,
+      guests: 1,
+      bedType: "",
+      images: [],
+      description: "",
+      amenities: [],
+      features: [],
+    });
 
   const [newFeature, setNewFeature] = useState("");
 
@@ -242,7 +256,7 @@ const RoomModal = ({ isOpen, onClose, onSave, room }) => {
         size: 0,
         guests: 1,
         bedType: "",
-        image: "",
+        images: [],
         description: "",
         amenities: [],
         features: [],
@@ -304,15 +318,14 @@ const RoomModal = ({ isOpen, onClose, onSave, room }) => {
           cloudName: CLOUDINARY_CLOUD_NAME,
           uploadPreset: CLOUDINARY_UPLOAD_PRESET,
           sources: ["local", "camera", "url"],
-          multiple: false,
+          multiple: true, // allow multiple images
           folder: "Rooms",
         },
         (error, result) => {
           if (!error && result && result.event === "success") {
-            // Update image in formData
             setFormData((prev) => ({
               ...prev,
-              image: result.info.secure_url,
+              images: [...(prev.images || []), result.info.secure_url],
             }));
             console.log("✅ Uploaded:", result.info.secure_url);
           }
@@ -407,23 +420,39 @@ const RoomModal = ({ isOpen, onClose, onSave, room }) => {
 
           <div className="mt-6">
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Upload Image
+              Upload Images
             </label>
             <button
               type="button"
               onClick={handleUpload}
               className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
             >
-              Upload Image
+              Upload Images
             </button>
 
-            {formData.image && (
-              <div className="mt-4">
-                <img
-                  src={formData.image}
-                  alt="Uploaded"
-                  className="w-40 h-40 object-cover rounded-lg border"
-                />
+            {formData.images.length > 0 && (
+              <div className="mt-4 grid grid-cols-3 gap-2">
+                {formData.images.map((img, idx) => (
+                  <div key={idx} className="relative">
+                    <img
+                      src={img}
+                      alt={`Uploaded ${idx}`}
+                      className="w-24 h-24 object-cover rounded-lg border"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          images: prev.images.filter((_, i) => i !== idx),
+                        }))
+                      }
+                      className="absolute top-0 right-15 bg-white rounded p-1 text-red-500 hover:text-red-700 shadow"
+                    >
+                      <X size={17} />
+                    </button>
+                  </div>
+                ))}
               </div>
             )}
           </div>
@@ -542,30 +571,29 @@ const InputField = ({ label, ...props }) => (
 );
 
 // --- Delete Confirmation Modal ---
-const DeleteConfirmationModal = ({ onConfirm, onCancel }) => {
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex justify-center items-center">
-      <div className="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm">
-        <h3 className="text-lg font-bold text-gray-900">Delete Room</h3>
-        <p className="mt-2 text-sm text-gray-600">
-          Are you sure you want to delete this room? This action cannot be
-          undone.
-        </p>
-        <div className="mt-6 flex justify-end gap-3">
-          <button
-            onClick={onCancel}
-            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-md font-medium hover:bg-gray-300"
-          >
-            Cancel
-          </button>
-          <button
-            onClick={onConfirm}
-            className="px-4 py-2 bg-red-600 text-white rounded-md font-medium hover:bg-red-700"
-          >
-            Delete
-          </button>
-        </div>
+const DeleteConfirmationModal = ({ onConfirm, onCancel }) => (
+  <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
+    <div className="bg-white rounded-lg shadow-2xl max-w-md w-full p-6">
+      <h3 className="text-lg font-semibold text-gray-800 mb-4">
+        Confirm Deletion
+      </h3>
+      <p className="text-gray-600 mb-6">
+        Are you sure you want to delete this room? This action cannot be undone.
+      </p>
+      <div className="flex justify-end gap-4">
+        <button
+          onClick={onCancel}
+          className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 font-semibold hover:bg-gray-50"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={onConfirm}
+          className="px-4 py-2 bg-red-600 text-white rounded-md font-semibold hover:bg-red-700"
+        >
+          Delete
+        </button>
       </div>
     </div>
-  );
-};
+  </div>
+);
