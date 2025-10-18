@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const roomSchema = new mongoose.Schema({
   name: { type: String, required: true }, // Room name
   category: { type: String }, // e.g. Air Conditioned
-  image: { type: String }, // URL to image
+  images: [{ type: String }], // Array of image URLs
   price: { type: Number, required: true }, // Price per night
   rating: { type: Number, default: 0 }, // Average rating
   size: { type: String }, // e.g. "25 sqm"
