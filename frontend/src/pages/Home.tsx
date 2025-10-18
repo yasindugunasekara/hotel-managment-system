@@ -174,7 +174,7 @@ const Home = () => {
                   <div className="relative overflow-hidden">
                     {" "}
                     <img
-                      src={room.image}
+                      src={room.images?.[0] || "https://via.placeholder.com/400x300?text=No+Image"}
                       alt={room.name}
                       className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                     />{" "}
