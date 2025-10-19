@@ -36,7 +36,7 @@ export default function UsersPage() {
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-md p-6">
+      <div className="bg-white rounded p-6">
         {loading ? (
           <p className="text-gray-500">Loading users...</p>
         ) : error ? (

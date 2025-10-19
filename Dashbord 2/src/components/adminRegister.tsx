@@ -23,6 +23,7 @@ const adminRegister: React.FC = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -47,7 +48,9 @@ const adminRegister: React.FC = () => {
     try {
       setLoading(true);
       setError("");
+      setSuccess(false);
 
+      // Send registration request with role = admin
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/users`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -57,15 +60,15 @@ const adminRegister: React.FC = () => {
           country: form.country,
           email: form.email,
           password: form.password,
+          role: "admin", // Force role to admin
         }),
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        alert("Registration Successful!");
-        console.log("User registered:", data);
-
+        console.log("Admin registered:", data);
+        setSuccess(true);
         setForm({
           firstName: "",
           lastName: "",
@@ -74,6 +77,11 @@ const adminRegister: React.FC = () => {
           password: "",
           confirmPassword: "",
         });
+
+        // Redirect after short delay
+        setTimeout(() => {
+          window.history.back();
+        }, 2000);
       } else {
         setError(data.error || "Something went wrong");
       }
@@ -86,10 +94,10 @@ const adminRegister: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
+    <div className="flex min-h-screen w-screen h-screen items-center justify-center bg-gray-100 p-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 md:p-8">
         <h2 className="text-2xl font-bold text-center text-black mb-6">
-          Create Your Account
+          Create Your Admin Account
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -184,23 +192,30 @@ const adminRegister: React.FC = () => {
 
           <button
             type="submit"
-            disabled={loading}
-            className="w-full bg-black text-white py-2 px-4 rounded-lg hover:bg-gold hover:text-black transition-all"
+            disabled={loading || success}
+            className={`w-full py-2 px-4 rounded-lg transition-all ${
+              success
+                ? "bg-green-500 text-white"
+                : "bg-black text-white hover:bg-gold hover:text-white/50"
+            }`}
           >
-            {loading ? "Registering..." : "Register"}
+            {loading
+              ? "Registering..."
+              : success
+              ? "Successfully Registered!"
+              : "Register as Admin"}
           </button>
         </form>
 
-        
         <p className="text-sm text-gray-600 text-center mt-4">
           Back to admin panel?{" "}
-            <button
+          <button
             type="button"
             className="text-gold font-semibold underline"
             onClick={() => window.history.back()}
-            >
+          >
             Back
-            </button>
+          </button>
         </p>
       </div>
     </div>
