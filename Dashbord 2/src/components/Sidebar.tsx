@@ -1,21 +1,23 @@
 import { LayoutDashboard, Calendar, MessageSquare, DoorOpen, Users, Settings, X, Home, User } from 'lucide-react';
+import { useNavigate, useLocation } from "react-router-dom";
 
 interface SidebarProps {
-  currentPage: string;
-  setCurrentPage: (page: string) => void;
   sidebarOpen: boolean;
   setSidebarOpen: (open: boolean) => void;
 }
 
-export default function Sidebar({ currentPage, setCurrentPage, sidebarOpen, setSidebarOpen }: SidebarProps) {
+export default function Sidebar({ sidebarOpen, setSidebarOpen }: SidebarProps) {
   const navigation = [
-    { name: 'Dashboard', icon: LayoutDashboard, page: 'dashboard' },
-    { name: 'Bookings', icon: Calendar, page: 'bookings' },
-    { name: 'Messages', icon: MessageSquare, page: 'messages' },
-    { name: 'Rooms', icon: DoorOpen, page: 'rooms' },
-    { name: 'Users', icon: Users, page: 'users' },
-    { name: 'Settings', icon: Settings, page: 'settings' },
+    { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
+    { name: 'Bookings', icon: Calendar, path: '/bookings' },
+    { name: 'Messages', icon: MessageSquare, path: '/messages' },
+    { name: 'Rooms', icon: DoorOpen, path: '/rooms' },
+    { name: 'Users', icon: Users, path: '/users' },
+    { name: 'Settings', icon: Settings, path: '/settings' },
   ];
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <aside className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 fixed lg:static inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transition-transform duration-300`}>
@@ -24,7 +26,7 @@ export default function Sidebar({ currentPage, setCurrentPage, sidebarOpen, setS
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Home className="w-8 h-8 text-blue-600" />
-              <span className="text-xl font-bold text-gray-800">HotelHub</span>
+              <span className="text-xl font-bold text-gray-800">Calm Rest </span>
             </div>
             <button onClick={() => setSidebarOpen(false)} className="lg:hidden">
               <X className="w-6 h-6 text-gray-600" />
@@ -35,13 +37,13 @@ export default function Sidebar({ currentPage, setCurrentPage, sidebarOpen, setS
         <nav className="flex-1 p-4 space-y-2">
           {navigation.map((item) => (
             <button
-              key={item.page}
+              key={item.path}
               onClick={() => {
-                setCurrentPage(item.page);
+                navigate(item.path);
                 setSidebarOpen(false);
               }}
               className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                currentPage === item.page
+                location.pathname === item.path
                   ? 'bg-blue-600 text-white'
                   : 'text-gray-700 hover:bg-gray-100'
               }`}

@@ -191,11 +191,16 @@ const adminRegister: React.FC = () => {
           </button>
         </form>
 
+        
         <p className="text-sm text-gray-600 text-center mt-4">
-          Already have an account?{" "}
-          <a href="/login" className="text-gold font-semibold">
-            Login
-          </a>
+          Back to admin panel?{" "}
+            <button
+            type="button"
+            className="text-gold font-semibold underline"
+            onClick={() => window.history.back()}
+            >
+            Back
+            </button>
         </p>
       </div>
     </div>
