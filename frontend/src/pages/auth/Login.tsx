@@ -47,32 +47,38 @@ const Login = () => {
     }
   };
 
-  // 🔹 Google Login (Firebase)
   const handleGoogleLogin = async () => {
-    setGoogleLoading(true);
-    try {
-      const { user, idToken } = await signInWithGoogle();
+  setGoogleLoading(true);
+  try {
+    const user = await signInWithGoogle();
 
-      // Send Firebase token to your backend
-      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/google`, {
-        token: idToken,
-      });
+    const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/google`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: user.displayName,
+        email: user.email,
+        profilePic: user.photoURL,
+      }),
+    });
 
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      localStorage.setItem("token", res.data.token);
-
-      // Redirect
-      document.body.classList.add("fade-out");
-      setTimeout(() => {
-        window.location.href = "/book";
-      }, 1200);
-    } catch (error) {
-      console.error("Google login failed:", error);
-      alert("Google sign-in failed. Try again.");
-    } finally {
-      setGoogleLoading(false);
+    if (!res.ok) {
+      const errData = await res.json();
+      throw new Error(errData.error || "Google login failed");
     }
-  };
+
+    const data = await res.json();
+    console.log("Google login success:", data);
+    localStorage.setItem("user", JSON.stringify(data));
+    window.location.href = "/book";
+  } catch (err: any) {
+    console.error("Google login failed:", err);
+    alert("Google login failed: " + err.message);
+  } finally {
+    setGoogleLoading(false);
+  }
+};
+
 
   return (
     <div className="flex min-h-screen">
