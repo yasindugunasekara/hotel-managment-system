@@ -2,12 +2,13 @@ const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema(
   {
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
-    country: { type: String, required: true },
+    firstName: { type: String, required: function() { return this.provider !== "google"; } },
+    lastName: { type: String, required: function() { return this.provider !== "google"; } },
+    country: { type: String, required: function() { return this.provider !== "google"; } },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true }, // hashed before saving
-    role: { type: String, enum: ["user", "admin"], default: "user" }
+    password: { type: String, required: function() { return this.provider !== "google"; } }, // required only for normal signup
+    role: { type: String, enum: ["user", "admin"], default: "user" },
+    provider: { type: String, enum: ["local", "google"], default: "local" },
   },
   { timestamps: true }
 );

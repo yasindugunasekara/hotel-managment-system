@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Eye, EyeOff, Loader2, CheckCircle } from "lucide-react";
+import { signInWithGoogle } from "../../firebase"; // ✅ import Firebase helper
+import axios from "axios";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -7,8 +9,10 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [googleLoading, setGoogleLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // 🔐 Normal Login (existing)
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setSuccess(false);
@@ -24,21 +28,49 @@ const Login = () => {
 
       if (res.ok) {
         setSuccess(true);
-        // Add fade effect (optional)
         document.body.classList.add("fade-out");
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token);
 
-        // Redirect after short delay
         setTimeout(() => {
-          window.location.href = "/book"; // Redirect to your desired page
+          window.location.href = "/book";
         }, 1200);
       } else {
         setSuccess(false);
+        alert(data.message || "Login failed");
       }
     } catch (err) {
       console.error("Login error:", err);
       setSuccess(false);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // 🔹 Google Login (Firebase)
+  const handleGoogleLogin = async () => {
+    setGoogleLoading(true);
+    try {
+      const { user, idToken } = await signInWithGoogle();
+
+      // Send Firebase token to your backend
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/auth/google`, {
+        token: idToken,
+      });
+
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+      localStorage.setItem("token", res.data.token);
+
+      // Redirect
+      document.body.classList.add("fade-out");
+      setTimeout(() => {
+        window.location.href = "/book";
+      }, 1200);
+    } catch (error) {
+      console.error("Google login failed:", error);
+      alert("Google sign-in failed. Try again.");
+    } finally {
+      setGoogleLoading(false);
     }
   };
 
@@ -65,6 +97,8 @@ const Login = () => {
           </h2>
           <p className="text-center text-gray-500 mb-6">Sign in to your account</p>
 
+          
+          {/* Normal Login Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Email */}
             <div>
@@ -133,6 +167,35 @@ const Login = () => {
                 <span>Login</span>
               )}
             </button>
+            {/* Google Login */}
+          <button
+            onClick={handleGoogleLogin}
+            disabled={googleLoading}
+            className="w-full border flex items-center justify-center gap-3 py-2 rounded-lg mb-5 hover:bg-gray-100"
+          >
+            {googleLoading ? (
+              <>
+                <Loader2 className="animate-spin w-5 h-5" />
+                <span>Signing in with Google...</span>
+              </>
+            ) : (
+              <>
+                <img
+                  src="https://developers.google.com/identity/images/g-logo.png"
+                  alt="Google"
+                  className="w-5 h-5"
+                />
+                <span>Continue with Google</span>
+              </>
+            )}
+          </button>
+
+          <div className="flex items-center my-4">
+            <hr className="flex-grow border-gray-300" />
+            <span className="mx-2 text-gray-500 text-sm">or</span>
+            <hr className="flex-grow border-gray-300" />
+          </div>
+
           </form>
 
           {/* Register Link */}
