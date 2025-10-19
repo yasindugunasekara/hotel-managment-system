@@ -13,6 +13,9 @@ export default function UsersPage() {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/users/`);
         setUsers(response.data); // assuming your API returns an array of users
+         // ✅ Only show users with role === "admin"
+        const adminUsers = response.data.filter(user => user.role === "admin");
+        setUsers(adminUsers);
       } catch (err) {
         console.error("Error fetching users:", err);
         setError("Failed to load users. Please try again.");
