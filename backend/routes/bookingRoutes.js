@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
 });
 
 
-//delete booking 
+//delete booking
 router.delete("/:id", async (req, res) => {
   try {
     const deletedBooking = await Booking.findByIdAndDelete(req.params.id);
