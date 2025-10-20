@@ -7,13 +7,14 @@ export default function UsersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+
   // Fetch users from backend API
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/users/`);
-        setUsers(response.data); // assuming your API returns an array of users
-         // ✅ Only show users with role === "admin"
         const adminUsers = response.data.filter(user => user.role === "admin");
         setUsers(adminUsers);
       } catch (err) {
@@ -26,6 +27,27 @@ export default function UsersPage() {
 
     fetchUsers();
   }, []);
+
+  // Open delete confirmation modal
+  const confirmDelete = (user) => {
+    setSelectedUser(user);
+    setShowDeleteModal(true);
+  };
+
+  // Delete user
+  const handleDelete = async () => {
+    if (!selectedUser) return;
+
+    try {
+      await axios.delete(`${import.meta.env.VITE_API_BASE_URL}/users/${selectedUser._id}`);
+      setUsers(prev => prev.filter(user => user._id !== selectedUser._id));
+      setShowDeleteModal(false);
+      setSelectedUser(null);
+    } catch (err) {
+      console.error("Error deleting user:", err);
+      alert("Failed to delete user. Please try again.");
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -59,8 +81,8 @@ export default function UsersPage() {
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, idx) => (
-                  <tr key={idx} className="border-b hover:bg-gray-50 transition-colors">
+                {users.map((user) => (
+                  <tr key={user._id} className="border-b hover:bg-gray-50 transition-colors">
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-3">
                         <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
@@ -75,8 +97,11 @@ export default function UsersPage() {
                     <td className="py-3 px-4">{user.country}</td>
                     <td className="py-3 px-4">{user.email}</td>
                     <td className="py-3 px-4">
-                      <button className="text-blue-600 hover:text-blue-700 text-sm font-medium">
-                        Edit
+                      <button
+                        className="text-red-600 hover:text-red-700 text-sm font-medium"
+                        onClick={() => confirmDelete(user)}
+                      >
+                        Delete
                       </button>
                     </td>
                   </tr>
@@ -86,6 +111,32 @@ export default function UsersPage() {
           </div>
         )}
       </div>
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && selectedUser && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50">
+          <div className="bg-white rounded-lg p-6 w-80 shadow-lg">
+            <h2 className="text-lg font-semibold mb-4">Delete User</h2>
+            <p className="mb-6">
+              Are you sure you want to delete <strong>{selectedUser.firstName} {selectedUser.lastName}</strong>?
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                className="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-100"
+                onClick={() => setShowDeleteModal(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

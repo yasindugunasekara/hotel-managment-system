@@ -34,6 +34,16 @@ router.post("/", async (req, res) => {
   }
 });
 
+//delete user
+router.delete("/:id", async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ message: "User deleted successfully ✅" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // Get All Users (Admin use)
 router.get("/", async (req, res) => {
   try {
