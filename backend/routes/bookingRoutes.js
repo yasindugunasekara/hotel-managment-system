@@ -23,6 +23,19 @@ router.post("/", async (req, res) => {
 });
 
 
+//delete booking 
+router.delete("/:id", async (req, res) => {
+  try {
+    const deletedBooking = await Booking.findByIdAndDelete(req.params.id);
+    if (!deletedBooking) {
+      return res.status(404).json({ success: false, error: "Booking not found" });
+    }
+    res.json({ success: true, message: "Booking deleted successfully ✅" });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 router.get("/", async (req, res) => {
   try {
     const bookings = await Booking.find().lean(); // lean() gives plain JS objects
