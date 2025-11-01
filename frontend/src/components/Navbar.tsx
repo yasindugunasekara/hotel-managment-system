@@ -77,12 +77,16 @@ const Navbar = () => {
             {/* Logo */}
             <div className="flex items-center">
               <Link to="/" className="flex items-center space-x-2">
-                <div className="w-12 h-12 bg-gold rounded-full flex items-center justify-center">
-                  <span className="text-white font-bold text-xl">CR</span>
+                <div className="w-13 h-13  rounded-full flex items-center justify-center">
+                  <img
+                    src="https://res.cloudinary.com/dcgfwnzzr/image/upload/v1760970811/calmrest_logo_vbuoxu.png"
+                    alt="Calm Rest logo"
+                    className="w-10 h-10 object-cover rounded-full"
+                  />
                 </div>
                 <div>
                   <h1 className="text-2xl font-bold text-navy font-serif">Calm Rest</h1>
-                  <p className="text-sm text-gray-600">Luxury Hotel</p>
+                  {/* <p className="text-sm text-gray-600">Luxury Hotel</p> */}
                 </div>
               </Link>
             </div>
