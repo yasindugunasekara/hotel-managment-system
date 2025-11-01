@@ -21,8 +21,13 @@ const Footer = () => {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center space-x-2 mb-6">
-              <div className="w-12 h-12 bg-gold rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-xl">CR</span>
+              <div className="w-12 h-12  rounded-full flex items-center justify-center">
+                <img
+                  src="https://res.cloudinary.com/dcgfwnzzr/image/upload/v1760970811/calmrest_logo_vbuoxu.png"
+                  alt="Calm Rest logo"
+                  className="w-10 h-10 object-contain rounded-full"
+                  loading="lazy"
+                />
               </div>
               <div>
                 <h2 className="text-2xl font-bold font-serif">Calm Rest</h2>

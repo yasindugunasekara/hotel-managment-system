@@ -63,7 +63,7 @@ const Testimonials: React.FC = () => {
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage:
-              "url(https://images.pexels.com/photos/1024993/pexels-photo-1024993.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
+              "url(https://res.cloudinary.com/dcgfwnzzr/image/upload/v1761978975/DSC07870_ubapwv.png)",
           }}
         />
         <div className="absolute inset-0 bg-navy bg-opacity-70" />

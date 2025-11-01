@@ -78,7 +78,7 @@ const Location = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: 'url(https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)'
+            backgroundImage: 'url(https://res.cloudinary.com/dcgfwnzzr/image/upload/v1761979536/pexels-asadphoto-3155661_axko0o.jpg)'
           }}
         />
         <div className="absolute inset-0 bg-navy bg-opacity-70" />

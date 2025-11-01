@@ -123,11 +123,11 @@ const Home = () => {
 
             <div className="relative">
               <img
-                src="https://images.pexels.com/photos/2467558/pexels-photo-2467558.jpeg?auto=compress&cs=tinysrgb&w=600"
+                src="https://res.cloudinary.com/dcgfwnzzr/image/upload/v1761979534/pexels-rlpeebles-731648_rvpkns.jpg"
                 alt="Hotel Interior"
                 className="rounded-lg shadow-lg w-full object-cover"
               />
-              <div className="absolute -bottom-6 right-0 bg-white p-5 rounded-lg shadow-lg w-max mx-auto">
+              {/* <div className="absolute -bottom-6 right-0 bg-white p-5 rounded-lg shadow-lg w-max mx-auto">
                 <div className="flex items-center justify-center space-x-2">
                   <div className="flex text-gold">
                     {[...Array(5)].map((_, i) => (
@@ -137,7 +137,7 @@ const Home = () => {
                   <span className="text-lg font-semibold">4.9/5</span>
                 </div>
                 <p className="text-gray-600 mt-1 text-center">Guest Rating</p>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
