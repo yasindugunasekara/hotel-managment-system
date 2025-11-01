@@ -76,8 +76,7 @@ const Home = () => {
               className="border-2 border-white text-white px-10 sm:px-14 py-3 sm:py-4 text-base sm:text-lg font-medium hover:bg-white hover:text-navy transition-all rounded"
               onClick={() =>
                 window.open(
-                  "https://www.booking.com/hotel/lk/the-calm-rest.en-gb.html",
-                  "_blank"
+                  "/Testimonials"
                 )
               }
             >
