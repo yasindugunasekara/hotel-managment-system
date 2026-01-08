@@ -58,16 +58,16 @@ const Contact = () => {
     {
       icon: <Mail className="w-6 h-6" />,
       title: "Email",
-      details: ["info@calmrest.com", "reservations@calmrest.com"],
+      details: ["info@calmrest.com", "calmrestmidigaama.com"],
       action: "Send Email",
     },
     {
       icon: <MapPin className="w-6 h-6" />,
       title: "Address",
       details: [
-        "123 Luxury Avenue",
-        "Downtown District",
-        "Metropolitan City, State 12345",
+        "Calm rest ",
+        "Midigama, Ahangama",
+        "Sri Lanka",
       ],
       action: "Get Directions",
     },

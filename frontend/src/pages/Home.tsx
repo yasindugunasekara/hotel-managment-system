@@ -54,7 +54,7 @@ const Home = () => {
           className="absolute inset-0 bg-cover bg-center bg-fixed"
           style={{
             backgroundImage:
-              "url(https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
+              "url(https://res.cloudinary.com/dcgfwnzzr/image/upload/v1761921975/Rooms/pic1_twzesv.jpg)",
           }}
         />
         <div className="absolute inset-0 bg-navy bg-opacity-70" />
@@ -123,7 +123,7 @@ const Home = () => {
 
             <div className="relative">
               <img
-                src="https://res.cloudinary.com/dcgfwnzzr/image/upload/v1761979534/pexels-rlpeebles-731648_rvpkns.jpg"
+                src="https://res.cloudinary.com/dcgfwnzzr/image/upload/v1767077294/DSC02255_kj4kat.jpg"
                 alt="Hotel Interior"
                 className="rounded-lg shadow-lg w-full object-cover"
               />

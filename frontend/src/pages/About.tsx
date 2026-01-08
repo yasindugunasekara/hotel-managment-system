@@ -72,7 +72,7 @@ const About = () => {
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: 'url(https://res.cloudinary.com/dcgfwnzzr/image/upload/v1758995053/samples/landscapes/beach-boat.jpg)'
+            backgroundImage: 'url(https://res.cloudinary.com/dcgfwnzzr/image/upload/v1767077422/DSC00479_aifbwb.jpg)'
           }}
         />
         <div className="absolute inset-0 bg-navy bg-opacity-70" />
@@ -118,7 +118,7 @@ const About = () => {
             </div>
             <div className="relative">
               <img
-                src="https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg?auto=compress&cs=tinysrgb&w=600"
+                src="https://res.cloudinary.com/dcgfwnzzr/image/upload/v1767077354/529911268_mdmgvu.jpg"
                 alt="Hotel History"
                 className="rounded-lg shadow-lg"
               />

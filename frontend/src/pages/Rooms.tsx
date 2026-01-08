@@ -43,7 +43,7 @@ const Rooms = () => {
           className="absolute inset-0 bg-cover bg-center"
           style={{
             backgroundImage:
-              "url(https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg)",
+              "url(https://res.cloudinary.com/dcgfwnzzr/image/upload/v1767077294/DSC02258_yg85iy.jpg)",
           }}
         />
         <div className="absolute inset-0 bg-navy bg-opacity-70" />
